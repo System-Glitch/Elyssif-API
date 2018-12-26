@@ -1,0 +1,37 @@
+<?php
+
+namespace DummyNamespace;
+
+use Illuminate\Database\Eloquent\Model;
+use App\Repositories\ResourceRepository;
+use App\Models\DummyModel;
+
+class DummyModelRepository extends ResourceRepository
+{
+
+    /**
+     * Create a new repository instance.
+     *
+     * @param  \App\Models\DummyModel  $model
+     * @return void
+     */
+    public function __construct(DummyModel $model)
+    {
+        $this->model = $model;
+    }
+
+    /**
+     * Resource relative behavior for saving a record.
+     *
+     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  array  $inputs
+     * @return int id, the id of the saved resource
+     */
+    protected function save(Model $model, Array $inputs)
+    {
+//[Save attributes]
+        $model->save();
+        return $model->dummy_id;
+    }
+
+}
