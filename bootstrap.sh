@@ -144,6 +144,7 @@ EOF
 	php artisan key:generate
 
 	setup_database
+	php artisan passport:install
 }
 
 install()
