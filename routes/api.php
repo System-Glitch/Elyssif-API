@@ -22,4 +22,5 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('/logout', 'Auth\\ApiLoginController@logout');
 });
 
+Route::post('/register', 'Auth\\ApiRegisterController@register');
 Route::post('/login', 'Auth\\ApiLoginController@login');
