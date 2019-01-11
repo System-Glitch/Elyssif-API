@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Laravel\Passport\TokenRepository;
@@ -59,9 +60,10 @@ class ApiLoginController extends Controller
         $token = $request->user()->token();
 
         if (is_null($token)) {
-            return new Response('', 404);
+            return new Response('', Response::HTTP_NOT_FOUND);
         }
 
         $token->revoke();
+        return new Response('', Response::HTTP_NO_CONTENT);
     }
 }
