@@ -4,18 +4,18 @@ namespace App\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Repositories\ResourceRepository;
-use App\Models\User;
+use App\Models\File;
 
-class UserRepository extends ResourceRepository
+class FileRepository extends ResourceRepository
 {
 
     /**
      * Create a new repository instance.
      *
-     * @param  \App\Models\User  $model
+     * @param  \App\Models\File  $model
      * @return void
      */
-    public function __construct(User $model)
+    public function __construct(File $model)
     {
         $this->model = $model;
     }
@@ -30,8 +30,15 @@ class UserRepository extends ResourceRepository
     protected function save(Model $model, Array $inputs)
     {
         $model->name = $inputs['name'];
-        $model->email = $inputs['email'];
-        if(isset($inputs['password'])) $model->password = $inputs['password'];
+        $model->ciphered_at = $inputs['ciphered_at'];
+        $model->deciphered_at = $inputs['deciphered_at'];
+        $model->hash = $inputs['hash'];
+        $model->hash_ciphered = $inputs['hash_ciphered'];
+        $model->public_key = $inputs['public_key'];
+        $model->private_key = $inputs['private_key'];
+        $model->price = $inputs['price'];
+        $model->sender_id = $inputs['sender_id'];
+        $model->recipient_id = $inputs['recipient_id'];
 
         $model->save();
         return $model->id;
