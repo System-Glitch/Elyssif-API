@@ -28,4 +28,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function contacts()
+    {
+        return $this->belongsToMany('App\Models\User', 'contact_user', 'contact_id', 'user_id')->withPivot('notes', 'created_at', 'updated_at');
+    }
 }
