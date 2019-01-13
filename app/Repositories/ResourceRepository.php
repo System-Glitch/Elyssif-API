@@ -35,7 +35,7 @@ abstract class ResourceRepository
      * @param  bool  $only, select only the deleted ones if true, select all existing records if set to false. Defaults to true.
      * @return array
      */
-    public function getAllTrashed($only = true)
+    public function getAllTrashed(bool $only = true)
     {
         return $only ? 
             $this->getAll()->onlyTrashed() :
@@ -49,7 +49,7 @@ abstract class ResourceRepository
      * @param  string  $order (ex.: 'asc', 'desc')
      * @return array
      */
-    public function getAllOrdered($orderColumn, $order)
+    public function getAllOrdered(string $orderColumn, string $order)
     {
         return $this->model->all()->orderBy($orderColumn,$order);
     }
@@ -62,7 +62,7 @@ abstract class ResourceRepository
      * @param  bool  $only, select only the deleted ones if true, select all existing records if set to false. Default to true.
      * @return array
      */
-    public function getAllOrderedTrashed($orderColumn, $order, $only=true)
+    public function getAllOrderedTrashed(string $orderColumn, string $order, bool $only=true)
     {
         return $only ? 
             $this->getAllOrdered($orderColumn, $order)->onlyTrashed() :
@@ -73,29 +73,31 @@ abstract class ResourceRepository
      * Get the recordings matching the given WHERE clause
      *
      * @param  string  $column
+     * @param  string $operator
      * @param  mixed  $value
      * @param  int  $limit, defaults to 100
      * @return array
      */
-    public function getWhere($column, $value, $limit=100)
+    public function getWhere(string $column, string $operator, $value, int $limit=100)
     {
-        $search = '%'.strtolower($value).'%';
-        return $this->model->whereRaw('LOWER('.$column.') LIKE ?', array($search))->take($limit)->get();
+        $search = $operator == 'LIKE' ? '%'.$this->escape_like($value).'%' : $value;
+        return $this->model->where($column, $operator, $search)->take($limit)->get();
     }
 
     /**
      * Get the deleted recordings matching the given WHERE clause
      *
      * @param  string  $column
+     * @param  string $operator
      * @param  mixed  $value
      * @param  int  $limit, defaults to 100
      * @param  bool  $only, select only the deleted ones if true, select all existing records if set to false. Default to true.
      * @return array
      */
-    public function getWhereTrashed($column, $value, $limit = 100, $only = true)
+    public function getWhereTrashed(string $column, string $operator, $value, int $limit = 100, bool $only = true)
     {
-        $search = '%'.strtolower($value).'%';
-        $query = $this->model->whereRaw('LOWER('.$column.') LIKE ?', array($search))->take($limit);
+        $search = $operator == 'LIKE' ? '%'.$this->escape_like($value).'%' : $value;
+        $query = $this->model->where($column, $operator, $search)->take($limit)->get();
         if($only)
             $query = $query->onlyTrashed();
         else
@@ -110,7 +112,7 @@ abstract class ResourceRepository
      * @param  int  $id
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function getById($id)
+    public function getById(int $id)
     {
         return $this->model->findOrFail($id);
     }
@@ -122,7 +124,7 @@ abstract class ResourceRepository
      * @param  bool  $only, select only the deleted ones if true, select all existing records if set to false. Default to true.
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function getByIdTrashed($id, $only = true)
+    public function getByIdTrashed(int $id, bool $only = true)
     {
         return $only ?
             $this->model->onlyTrashed()->findOrFail($id) :
@@ -135,7 +137,7 @@ abstract class ResourceRepository
      * @param  int  $n the amount of recordings per page
      * @return array
      */
-    public function getPaginate($n)
+    public function getPaginate(int $n)
     {
         return $this->model->paginate($n);
     }
@@ -147,7 +149,7 @@ abstract class ResourceRepository
      * @param  bool  $only, select only the deleted ones if true, select all existing records if set to false. Default to true.
      * @return array
      */
-    public function getPaginateTrashed($n, $only = true)
+    public function getPaginateTrashed(int $n, bool $only = true)
     {
         $paginate = $this->model->getPaginate($n);
         return $only ?
@@ -162,7 +164,7 @@ abstract class ResourceRepository
      * @param  array  $columns the columns to select with optional alias
      * @return array
      */
-    public function getPaginateSelect($n, array $columns)
+    public function getPaginateSelect(int $n, array $columns)
     {
         return $this->model->select($columns)->paginate($n);
     }
@@ -175,7 +177,7 @@ abstract class ResourceRepository
      * @param  bool  $only, select only the deleted ones if true, select all existing records if set to false. Default to true.
      * @return array
      */
-    public function getPaginateSelectTrashed($n, array $columns, $only = true)
+    public function getPaginateSelectTrashed(int $n, array $columns, bool $only = true)
     {
         $paginate = $this->model->getPaginateSelect($n, $columns);
         return $only ?
@@ -191,7 +193,7 @@ abstract class ResourceRepository
      * @param  string  $order (ex.: 'asc', 'desc')
      * @return array
      */
-    public function getPaginateOrdered($n, $orderColumn, $order)
+    public function getPaginateOrdered(int $n, string $orderColumn, string $order)
     {
         return $this->model->orderBy($orderColumn,$order)->paginate($n);
     }
@@ -205,7 +207,7 @@ abstract class ResourceRepository
      * @param  bool  $only, select only the deleted ones if true, select all existing records if set to false. Default to true.
      * @return array
      */
-    public function getPaginateOrderedTrashed($n, $orderColumn, $order, $only = true)
+    public function getPaginateOrderedTrashed(int $n, string $orderColumn, string $order, bool $only = true)
     {
         $paginate = $this->model->getPaginateOrdered($n, $orderColumn, $order);
         return $only ?
@@ -217,9 +219,9 @@ abstract class ResourceRepository
      * Get if a record exists with the given id
      *
      * @param  int  $id
-     * @return boolean
+     * @return bool
      */
-    public function exists($id)
+    public function exists(int $id)
     {
         return $this->model->where($this->model->getKeyName(), $id)->exists();
     }
@@ -229,9 +231,9 @@ abstract class ResourceRepository
      *
      * @param  int  $id
      * @param  bool  $only, select only the deleted ones if true, select all existing records if set to false. Default to true.
-     * @return boolean
+     * @return bool
      */
-    public function existsTrashed($id, $only = true)
+    public function existsTrashed(int $id, bool $only = true)
     {
         $query = $this->model->where($this->model->getKeyName(), $id);
         if($only)
@@ -273,7 +275,7 @@ abstract class ResourceRepository
      * @param  array  $inputs
      * @return void
      */
-    public function update($id, Array $inputs)
+    public function update(int $id, Array $inputs)
     {
         $this->getById($id)->update($inputs);
     }
@@ -284,7 +286,7 @@ abstract class ResourceRepository
      * @param  int  $id, the id of the record to delete
      * @return void
      */
-    public function destroy($id, $force = false)
+    public function destroy(int $id, bool $force = false)
     {
         $record = $this->getById($id);
         $force ? $record->forceDelete() : $record->delete();
@@ -299,6 +301,23 @@ abstract class ResourceRepository
     public function restore($id)
     {
         $this->getByIdTrashed($id)->restore();
+    }
+
+    /**
+     * Escape special characters for a LIKE query.
+     *
+     * @param string $value
+     * @param string $char
+     *
+     * @return string
+     */
+    private function escape_like(string $value, string $char = '\\')
+    {
+        return str_replace(
+            [$char, '%', '_'],
+            [$char.$char, $char.'%', $char.'_'],
+            $value
+        );
     }
 
 }
