@@ -13,14 +13,12 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\Models\User::class, function (Faker $faker) {
+$factory->define(App\Models\Contact::class, function (Faker $faker) {
     return [
-        'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
-        'email_verified_at' => now(),
-        'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
+        'id_user' => $faker->numberBetween($min = 1, $max = 50),			// Doit ciblé une ID existente
+        'id_contacts' => $faker->numberBetween($min = 1, $max = 50),		// Doit ciblé une ID existente
+        'notes' => $faker->text($maxNbChars = 200),
         'created_at' => now(),
         'updated_at' => now(),
-        'remember_token' => str_random(10),
     ];
 });
