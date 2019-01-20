@@ -15,8 +15,8 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Models\File::class, function (Faker $faker) {
     return [
-        'id_sender' => $faker->numberBetween($min = 1, $max = 50),		// Doit ciblé une ID existente
-        'id_recipient' => $faker->numberBetween($min = 1, $max = 50),		// Doit ciblé une ID existente
+        'sender_id' => $faker->numberBetween($min = 1, $max = 50),		// Doit ciblé une ID existente
+        'recipient_id' => $faker->numberBetween($min = 1, $max = 50),		// Doit ciblé une ID existente
         'created_at' => now(),
         'updated_at' => now(),
         'ciphered_at' => now(),

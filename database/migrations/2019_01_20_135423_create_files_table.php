@@ -15,8 +15,8 @@ class CreateFilesTable extends Migration
     {
         Schema::create('files', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_sender');
-            $table->integer('id_recipient');
+            $table->integer('sender_id');
+            $table->integer('recipient_id');
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
             $table->timestamp('ciphered_at')->nullable();
