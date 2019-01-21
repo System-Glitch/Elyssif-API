@@ -36,7 +36,7 @@ class User extends Authenticatable
      */
     public function contacts()
     {
-        return $this->belongsToMany('App\Models\User', 'contact_user', 'contact_id', 'user_id')->withTimestamps()->withPivot('notes', 'created_at', 'updated_at');
+        return $this->belongsToMany('App\Models\User', 'contact_user', 'contact_id', 'user_id')->withTimestamps()->withPivot('notes');
     }
 
     /**
