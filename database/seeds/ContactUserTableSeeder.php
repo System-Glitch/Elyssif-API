@@ -19,8 +19,7 @@ class ContactUserTableSeeder extends Seeder
 
         App\Models\User::all()->each(function($user) use ($faker){
         	$id1 = $user->id;
-        	$nbUsers = App\Models\User::all()->count();
-
+        	
         	for($i = 0; $i < 5; $i++){
         		$id2 = App\Models\User::inRandomOrder()->first()->id;
 

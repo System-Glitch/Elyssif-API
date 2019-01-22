@@ -17,8 +17,7 @@ class FilesTableSeeder extends Seeder
         // Seeding 5 files from each user to random users (can be equal)
         App\Models\User::all()->each(function($user){
         	$id1 = $user->id;
-        	$nbUsers = App\Models\User::all()->count();
-
+        	
         	for($i = 0; $i < 5; $i++){
         		$id2 = App\Models\User::inRandomOrder()->first()->id;
 
