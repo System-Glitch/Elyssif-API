@@ -4,6 +4,17 @@ namespace App\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * The **Repository Pattern** is an addition to the MVC pattern.
+ * It fits right between the Controller and the Model so the controller never interacts directly with the Model.
+ *
+ * The aim is to:
+ * - Lighten controllers by moving the query building and logic into the repositories.
+ * - Improve readability and maintainability.
+ * - Reduce code redundancy as the super-class `ResourceRepository` contains most frequent queries.
+ *
+ * @author Jérémy LAMBERT
+ */
 abstract class ResourceRepository
 {
 
@@ -22,24 +33,27 @@ abstract class ResourceRepository
     /**
      * Get all the existing non-deleted recordings.
      *
+     * @param  array|mixed  $columns the columns to select with optional alias, defaults to '*'
      * @return array
      */
-    public function getAll()
+    public function getAll($columns = ['*'])
     {
-        return $this->model->all();
+        return $this->model->all($columns);
     }
 
     /**
      * Get all the deleted recordings.
      *
      * @param  bool  $only, select only the deleted ones if true, select all existing records if set to false. Defaults to true.
+     * @param  array|mixed  $columns the columns to select with optional alias, defaults to '*'
      * @return array
      */
-    public function getAllTrashed(bool $only = true)
+    public function getAllTrashed(bool $only = true, $columns = ['*'])
     {
-        return $only ? 
-            $this->getAll()->onlyTrashed() :
-            $this->getAll()->withTrashed();
+        $query = $this->getAll($columns);
+        return $only ?
+            $query->onlyTrashed()->get():
+            $query->withTrashed()->get();
     }
 
     /**
@@ -47,11 +61,12 @@ abstract class ResourceRepository
      *
      * @param  string  $orderColumn
      * @param  string  $order (ex.: 'asc', 'desc')
+     * @param  array|mixed  $columns the columns to select with optional alias, defaults to '*'
      * @return array
      */
-    public function getAllOrdered(string $orderColumn, string $order)
+    public function getAllOrdered(string $orderColumn, string $order, $columns = ['*'])
     {
-        return $this->model->all()->orderBy($orderColumn,$order);
+        return $this->model->select($columns)->orderBy($orderColumn, $order)->get();
     }
 
     /**
@@ -59,14 +74,16 @@ abstract class ResourceRepository
      *
      * @param  string  $orderColumn
      * @param  string  $order (ex.: 'asc', 'desc')
+     * @param  array|mixed  $columns the columns to select with optional alias, defaults to '*'
      * @param  bool  $only, select only the deleted ones if true, select all existing records if set to false. Default to true.
      * @return array
      */
-    public function getAllOrderedTrashed(string $orderColumn, string $order, bool $only=true)
+    public function getAllOrderedTrashed(string $orderColumn, string $order, $columns = ['*'], bool $only = true)
     {
-        return $only ? 
-            $this->getAllOrdered($orderColumn, $order)->onlyTrashed() :
-            $this->getAllOrdered($orderColumn, $order)->withTrashed();
+        $query = $this->model->select($columns)->orderBy($orderColumn, $order);
+        return $only ?
+            $query->onlyTrashed()->get():
+            $query->withTrashed()->get();
     }
 
     /**
@@ -75,13 +92,14 @@ abstract class ResourceRepository
      * @param  string  $column
      * @param  string $operator
      * @param  mixed  $value
+     * @param  array|mixed  $columns the columns to select with optional alias, defaults to '*'
      * @param  int  $limit, defaults to 100
      * @return array
      */
-    public function getWhere(string $column, string $operator, $value, int $limit=100)
+    public function getWhere(string $column, string $operator, $value, $columns = ['*'], int $limit = 100)
     {
         $search = $operator == 'LIKE' ? '%'.$this->escape_like($value).'%' : $value;
-        return $this->model->where($column, $operator, $search)->take($limit)->get();
+        return $this->model->select($columns)->where($column, $operator, $search)->take($limit)->get();
     }
 
     /**
@@ -90,18 +108,18 @@ abstract class ResourceRepository
      * @param  string  $column
      * @param  string $operator
      * @param  mixed  $value
+     * @param  array|mixed  $columns the columns to select with optional alias, defaults to '*'
      * @param  int  $limit, defaults to 100
      * @param  bool  $only, select only the deleted ones if true, select all existing records if set to false. Default to true.
      * @return array
      */
-    public function getWhereTrashed(string $column, string $operator, $value, int $limit = 100, bool $only = true)
+    public function getWhereTrashed(string $column, string $operator, $value, $columns = ['*'], int $limit = 100, bool $only = true)
     {
         $search = $operator == 'LIKE' ? '%'.$this->escape_like($value).'%' : $value;
-        $query = $this->model->where($column, $operator, $search)->take($limit)->get();
-        if($only)
-            $query = $query->onlyTrashed();
-        else
-            $query = $query->withTrashed();
+        $query = $this->model->select($columns)->where($column, $operator, $search)->take($limit)->get();
+        $query = $only ?
+            $query->onlyTrashed():
+            $query->withTrashed();
 
         return $query->get();
     }
@@ -110,79 +128,56 @@ abstract class ResourceRepository
      * Get a single recording by its id.
      *
      * @param  int  $id
+     * @param  array|mixed  $columns the columns to select with optional alias, defaults to '*'
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function getById(int $id)
+    public function getById(int $id, $columns = ['*'])
     {
-        return $this->model->findOrFail($id);
+        return $this->model->findOrFail($id, $columns);
     }
 
     /**
      * Get a single deleted recording by its id.
      *
      * @param  int  $id
+     * @param  array|mixed  $columns the columns to select with optional alias, defaults to '*'
      * @param  bool  $only, select only the deleted ones if true, select all existing records if set to false. Default to true.
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function getByIdTrashed(int $id, bool $only = true)
+    public function getByIdTrashed(int $id, $columns = ['*'], bool $only = true)
     {
         return $only ?
-            $this->model->onlyTrashed()->findOrFail($id) :
-            $this->model->withTrashed()->findOrFail($id);
+            $this->model->onlyTrashed()->findOrFail($id, $columns):
+            $this->model->withTrashed()->findOrFail($id, $columns);
     }
 
     /**
      * Get a paginate of the recordings.
      *
      * @param  int  $n the amount of recordings per page
+     * @param  array|mixed  $columns the columns to select with optional alias, defaults to '*'
      * @return array
      */
-    public function getPaginate(int $n)
+    public function getPaginate(int $n, $columns = ['*'])
     {
-        return $this->model->paginate($n);
+        return $this->model->select($columns)->paginate($n);
     }
 
     /**
      * Get a paginate of the deleted recordings.
      *
      * @param  int  $n the amount of recordings per page
+     * @param  array|mixed  $columns the columns to select with optional alias, defaults to '*'
      * @param  bool  $only, select only the deleted ones if true, select all existing records if set to false. Default to true.
      * @return array
      */
-    public function getPaginateTrashed(int $n, bool $only = true)
+    public function getPaginateTrashed(int $n, $columns = ['*'], bool $only = true)
     {
-        $paginate = $this->model->getPaginate($n);
-        return $only ?
-            $paginate->onlyTrashed() :
+        $paginate = $this->model->select($columns);
+        $paginate = $only ?
+            $paginate->onlyTrashed():
             $paginate->withTrashed();
-    }
-
-    /**
-     * Get a paginate of the recordings with only selected columns.
-     *
-     * @param  int  $n the amount of recordings per page
-     * @param  array  $columns the columns to select with optional alias
-     * @return array
-     */
-    public function getPaginateSelect(int $n, array $columns)
-    {
-        return $this->model->select($columns)->paginate($n);
-    }
-
-    /**
-     * Get a paginate of the deleted recordings with only selected columns.
-     *
-     * @param  int  $n the amount of recordings per page
-     * @param  array  $columns the columns to select with optional alias
-     * @param  bool  $only, select only the deleted ones if true, select all existing records if set to false. Default to true.
-     * @return array
-     */
-    public function getPaginateSelectTrashed(int $n, array $columns, bool $only = true)
-    {
-        $paginate = $this->model->getPaginateSelect($n, $columns);
-        return $only ?
-            $paginate->onlyTrashed() :
-            $paginate->withTrashed();
+        return $paginate->paginate($n);
     }
 
     /**
@@ -191,11 +186,12 @@ abstract class ResourceRepository
      * @param  int  $n the amount of recordings per page
      * @param  string  $orderColumn
      * @param  string  $order (ex.: 'asc', 'desc')
+     * @param  array|mixed  $columns the columns to select with optional alias, defaults to '*'
      * @return array
      */
-    public function getPaginateOrdered(int $n, string $orderColumn, string $order)
+    public function getPaginateOrdered(int $n, string $orderColumn, string $order, $columns = ['*'])
     {
-        return $this->model->orderBy($orderColumn,$order)->paginate($n);
+        return $this->model->select($columns)->orderBy($orderColumn,$order)->paginate($n);
     }
 
     /**
@@ -204,15 +200,17 @@ abstract class ResourceRepository
      * @param  int  $n the amount of recordings per page
      * @param  string  $orderColumn
      * @param  string  $order (ex.: 'asc', 'desc')
+     * @param  array|mixed  $columns the columns to select with optional alias, defaults to '*'
      * @param  bool  $only, select only the deleted ones if true, select all existing records if set to false. Default to true.
      * @return array
      */
-    public function getPaginateOrderedTrashed(int $n, string $orderColumn, string $order, bool $only = true)
+    public function getPaginateOrderedTrashed(int $n, string $orderColumn, string $order, $columns = ['*'], bool $only = true)
     {
-        $paginate = $this->model->getPaginateOrdered($n, $orderColumn, $order);
-        return $only ?
-            $paginate->onlyTrashed() :
+        $paginate = $this->model->select($columns)->orderBy($orderColumn,$order);
+        $paginate = $only ?
+            $paginate->onlyTrashed():
             $paginate->withTrashed();
+        return $paginate->paginate($n);
     }
 
     /**
@@ -236,10 +234,9 @@ abstract class ResourceRepository
     public function existsTrashed(int $id, bool $only = true)
     {
         $query = $this->model->where($this->model->getKeyName(), $id);
-        if($only)
-            $query = $query->onlyTrashed();
-        else
-            $query = $query->withTrashed();
+        $query = $only ?
+            $query->onlyTrashed():
+            $query->withTrashed();
 
         return $query->exists();
     }
