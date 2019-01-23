@@ -266,26 +266,48 @@ abstract class ResourceRepository
     }
 
     /**
-     * Update a record
+     * Update a record by its id
      *
      * @param  int  $id, the id of the record to update
      * @param  array  $inputs
      * @return void
      */
-    public function update(int $id, Array $inputs)
+    public function updateById(int $id, Array $inputs)
     {
-        $this->getById($id)->update($inputs);
+        $this->update($this->getById($id), $inputs);
     }
 
     /**
-     * Delete a record
+     * Update a record
+     *
+     * @param  \Illuminate\Database\Eloquent\Model  $record
+     * @param  array  $inputs
+     * @return void
+     */
+    public function update(Model $record, Array $inputs)
+    {
+        $record->update($inputs);
+    }
+
+    /**
+     * Delete a record by its id
      *
      * @param  int  $id, the id of the record to delete
      * @return void
      */
-    public function destroy(int $id, bool $force = false)
+    public function destroyById(int $id, bool $force = false)
     {
-        $record = $this->getById($id);
+        $record = $this->getById($id, [$this->model->getKeyName()]);
+        $this->destroy($record, $force);
+    }
+    /**
+     * Delete a record
+     *
+     * @param  \Illuminate\Database\Eloquent\Model  $record
+     * @return void
+     */
+    public function destroy(Model $record, bool $force = false)
+    {
         $force ? $record->forceDelete() : $record->delete();
     }
 
