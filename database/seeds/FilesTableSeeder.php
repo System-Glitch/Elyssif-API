@@ -14,18 +14,22 @@ class FilesTableSeeder extends Seeder
      */
     public function run()
     {
-        // Seeding 5 files from each user to random users (can be equal)
-        App\Models\User::all()->each(function($user){
-        	$id1 = $user->id;
-        	
-        	for($i = 0; $i < 5; $i++){
-        		$id2 = App\Models\User::inRandomOrder()->first()->id;
+    	if(User::all()->count() == 50){
+	        // Seeding 5 files from each user to random users (can be equal)
+	        User::all()->each(function($user){
+	        	$id1 = $user->id;
+	        	
+	        	for($i = 0; $i < 5; $i++){
+	        		$id2 = User::inRandomOrder()->first()->id;
 
-	        	factory(App\Models\File::class, 1)->create([
-	    			'sender_id' => $id1,
-	    			'recipient_id' => $id2,
-				]);
-        	}
-        });
+		        	factory(File::class, 1)->create([
+		    			'sender_id' => $id1,
+		    			'recipient_id' => $id2,
+					]);
+	        	}
+	        });
+	    }else{
+	    	// Message need to be produced
+	    }
     }
 }

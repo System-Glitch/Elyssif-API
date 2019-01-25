@@ -17,25 +17,27 @@ class ContactUserTableSeeder extends Seeder
 
         // Seeding 5 contacts from each user to random users (can not be equal)
 
-        App\Models\User::all()->each(function($user) use ($faker){
-        	$id1 = $user->id;
-        	
-        	for($i = 0; $i < 5; $i++){
-        		$id2 = App\Models\User::inRandomOrder()->first()->id;
+        if(User::all()->count() == 50){
+	        User::all()->each(function($user) use ($faker){
+	        	$id1 = $user->id;
 
-        		$contactData = array([
-        			'user_id' => $id1,
-	        		'contact_id' => $id2,
-	        		'notes' => $faker->text($maxNbChars = 200),
-	        		'created_at' => now(),
-	        		'updated_at' => now(),
-        		]);
+	        	for($i = 0; $i < 5; $i++){
+	        		$id2 = User::inRandomOrder()->first()->id;
 
-        		// Syntax not working
-	        	// $user->contacts()->create($contactData);
+	        		$contactData = array([
+	        			'user_id' => $id1,
+		        		'contact_id' => $id2,
+		        		'notes' => $faker->text($maxNbChars = 200),
+	        		]);
 
-	        	DB::table('contact_user')->insert($contactData);
-        	}
-        });
+	        		// Syntax not working
+		        	$user->contacts()->attach($id1, $id2, $faker->text($maxNbChars = 200))->create();
+
+		        	//DB::table('contact_user')->insert($contactData);
+	        	}
+	        });
+	    }else{
+	    	// Message need to produced
+	    }
     }
 }

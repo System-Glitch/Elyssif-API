@@ -12,17 +12,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
 	{
-		Eloquent::unguard();
-
 		$this->call(UsersTableSeeder::class);
-
-		if(App\Models\User::all()->count() == 50){
-			$this->call(FilesTableSeeder::class);
-			$this->call(ContactUserTableSeeder::class);
-		}else{
-			// Error Message need to be produced
-		}
-
-		Eloquent::reguard();
+		$this->call(FilesTableSeeder::class);
+		$this->call(ContactUserTableSeeder::class);
 	}
 }

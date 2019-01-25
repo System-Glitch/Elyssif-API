@@ -15,16 +15,16 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Models\File::class, function (Faker $faker) {
     return [
-        'sender_id' => $faker->numberBetween($min = 1, $max = 50),		// Valeur reçus par la factory
-        'recipient_id' => $faker->numberBetween($min = 1, $max = 50),		// Valeur reçus par la factory
-        'created_at' => now(),
-        'updated_at' => now(),
+        'sender_id' => $faker->numberBetween($min = 1, $max = 50),		    // Value received by the factory
+        'recipient_id' => $faker->numberBetween($min = 1, $max = 50),		// Value received by the factory
+        // 'created_at' => now(),  - Laravel handle this by default
+        // 'updated_at' => now(),  - Laravel handle this by default
         'ciphered_at' => now(),
         'deciphered_at' => now(),
-        'hash' => $faker->unique()->sha256,			      // Chaine de caractère aléatoire 
-        'hash_ciphered' => $faker->unique()->sha256,	  // Chaine de caractère aléatoire 
-        'public_key' => str_random(16),		                          // Chaine de caractère aléatoire 
-        'private_key' => str_random(16),		                          // Chaine de caractère aléatoire 
-        'price' => $faker->randomNumber(5),			                          // Chaine de caractère aléatoire 
+        'hash' => $faker->unique()->sha256,			      // Random string 
+        'hash_ciphered' => $faker->unique()->sha256,	  // Random string 
+        'public_key' => str_random(16),		              // Random string 
+        'private_key' => str_random(16),		          // Random string 
+        'price' => $faker->randomNumber(5),			      // Random string 
     ];
 });
