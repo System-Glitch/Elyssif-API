@@ -19,8 +19,8 @@ $factory->define(App\Models\File::class, function (Faker $faker) {
         'recipient_id' => $faker->numberBetween($min = 1, $max = 50),		// Value received by the factory
         // 'created_at' => now(),  - Laravel handle this by default
         // 'updated_at' => now(),  - Laravel handle this by default
-        'ciphered_at' => $faker->date()->between('2019-01-01', '2019-05-31'),
-        'deciphered_at' => $faker->date()->between('2019-01-01', '2019-05-31'),
+        // 'ciphered_at' => $faker->date()->between('2019-01-01', '2019-05-31'),
+        // 'deciphered_at' => $faker->date()->between('2019-01-01', '2019-05-31'),
         'hash' => $faker->unique()->sha256,			                         // Random string 
         'hash_ciphered' => $faker->unique()->sha256,	                     // Random string 
         'public_key' => $faker->unique()->sha256,		                     // Random string 

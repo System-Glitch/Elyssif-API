@@ -21,8 +21,11 @@ class ContactUserTableSeeder extends Seeder
 	        User::all()->each(function($user) use ($faker){
 	        	for($i = 0; $i < 5; $i++){
 	        		$contact = User::inRandomOrder()->where('id', '!=', $user->id)->first()->id;
+	        		$notes = [
+	        			'notes' => $faker->text($maxNbChars = 200),
+	        		];
 
-		        	$user->contacts()->attach($contact, $faker->text($maxNbChars = 200))->create();
+		        	$user->contacts()->attach($contact, $notes);
 	        	}
 	        });
 	    }else{
