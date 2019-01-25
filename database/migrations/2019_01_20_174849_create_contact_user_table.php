@@ -16,9 +16,9 @@ class CreateContactUserTable extends Migration
         Schema::create('contact_user', function (Blueprint $table) {
             $table->integer('user_id');
             $table->integer('contact_id');
-            $table->string('notes');
-            $table->timestamp('created_at')->nullable();
-            $table->timestamp('updated_at')->nullable();
+            $table->string('notes')->nullable();
+            $table->timestamp('created_at');
+            $table->timestamp('updated_at');
         });
     }
 
