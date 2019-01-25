@@ -4,7 +4,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 
-class ContactUserTableSeeder extends Seeder
+class ContactsSeeder extends Seeder
 {
     /**
      * Run the database seeds.

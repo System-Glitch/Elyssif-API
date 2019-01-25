@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\File;
 use App\Models\User;
 
-class FilesTableSeeder extends Seeder
+class FilesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,7 +14,7 @@ class FilesTableSeeder extends Seeder
      */
     public function run()
     {
-    	if(User::all()->count() == 50){
+        if(User::all()->count() == 50){
 	        // Seeding 5 files from each user to random users (can be equal)
 	        User::all()->each(function($user){
 	        	$id1 = $user->id;

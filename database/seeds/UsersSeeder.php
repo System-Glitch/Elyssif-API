@@ -4,7 +4,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 
-class UsersTableSeeder extends Seeder
+class UsersSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,6 +13,6 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-    	factory(User::class, 50)->create();
+        factory(User::class, 50)->create();
     }
 }
