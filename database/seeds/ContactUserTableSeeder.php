@@ -16,8 +16,8 @@ class ContactUserTableSeeder extends Seeder
         $faker = \Faker\Factory::create();
 
         // Seeding 5 contacts from each user to random users (can not be equal)
-
-        if(User::all()->count() == 50){
+        $nbUsers = User::all()->count();
+        if($nbUsers == 50){
 	        User::all()->each(function($user) use ($faker){
 	        	for($i = 0; $i < 5; $i++){
 	        		$contact = User::inRandomOrder()->where('id', '!=', $user->id)->first()->id;
@@ -26,7 +26,8 @@ class ContactUserTableSeeder extends Seeder
 	        	}
 	        });
 	    }else{
-	    	// Message need to produced
+	    	$error = "Not enough users found for contacts seeding (only ".$nbUsers."). Users seeding must have fail.";
+	    	$this->command->error($error);
 	    }
     }
 }

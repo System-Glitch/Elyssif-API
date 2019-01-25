@@ -17,8 +17,7 @@ class CreateContactUserTable extends Migration
             $table->integer('user_id');
             $table->integer('contact_id');
             $table->string('notes')->nullable();
-            $table->timestamp('created_at');
-            $table->timestamp('updated_at');
+            $table->timestamps();
         });
     }
 

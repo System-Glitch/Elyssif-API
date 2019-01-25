@@ -19,12 +19,12 @@ $factory->define(App\Models\File::class, function (Faker $faker) {
         'recipient_id' => $faker->numberBetween($min = 1, $max = 50),		// Value received by the factory
         // 'created_at' => now(),  - Laravel handle this by default
         // 'updated_at' => now(),  - Laravel handle this by default
-        'ciphered_at' => now(),
-        'deciphered_at' => now(),
-        'hash' => $faker->unique()->sha256,			      // Random string 
-        'hash_ciphered' => $faker->unique()->sha256,	  // Random string 
-        'public_key' => str_random(16),		              // Random string 
-        'private_key' => str_random(16),		          // Random string 
-        'price' => $faker->randomNumber(5),			      // Random string 
+        'ciphered_at' => $faker->date()->between('2019-01-01', '2019-05-31'),
+        'deciphered_at' => $faker->date()->between('2019-01-01', '2019-05-31'),
+        'hash' => $faker->unique()->sha256,			                         // Random string 
+        'hash_ciphered' => $faker->unique()->sha256,	                     // Random string 
+        'public_key' => $faker->unique()->sha256,		                     // Random string 
+        'private_key' => $faker->unique()->sha256,		                     // Random string 
+        'price' => $faker->boolean ? 0 : $faker->randomNumber(5),		     // Random string 
     ];
 });

@@ -29,7 +29,8 @@ class FilesTableSeeder extends Seeder
 	        	}
 	        });
 	    }else{
-	    	// Message need to be produced
+	    	$error = "Not enough users found for files seeding (only ".$nbUsers."). Users seeding must have fail.";
+	    	$this->command->error($error);
 	    }
     }
 }
