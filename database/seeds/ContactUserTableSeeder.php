@@ -19,21 +19,10 @@ class ContactUserTableSeeder extends Seeder
 
         if(User::all()->count() == 50){
 	        User::all()->each(function($user) use ($faker){
-	        	$id1 = $user->id;
-
 	        	for($i = 0; $i < 5; $i++){
-	        		$id2 = User::inRandomOrder()->first()->id;
+	        		$contact = User::inRandomOrder()->where('id', '!=', $user->id)->first()->id;
 
-	        		$contactData = array([
-	        			'user_id' => $id1,
-		        		'contact_id' => $id2,
-		        		'notes' => $faker->text($maxNbChars = 200),
-	        		]);
-
-	        		// Syntax not working
-		        	$user->contacts()->attach($id1, $id2, $faker->text($maxNbChars = 200))->create();
-
-		        	//DB::table('contact_user')->insert($contactData);
+		        	$user->contacts()->attach($contact, $faker->text($maxNbChars = 200))->create();
 	        	}
 	        });
 	    }else{
