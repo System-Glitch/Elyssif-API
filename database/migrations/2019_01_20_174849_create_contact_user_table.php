@@ -33,14 +33,6 @@ class CreateContactUserTable extends Migration
      */
     public function down()
     {
-        /*
-        Schema::table('contact_user', function($table) {
-            // Attention, le drop sera impossible si ces champs n'existent pas
-            $table->dropForeign(['user_id']);
-            $table->dropForeign(['contact_id']);
-        });
-        */
-
         Schema::dropIfExists('contact_user');
     }
 }

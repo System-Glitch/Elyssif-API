@@ -24,6 +24,7 @@ class CreateFilesTable extends Migration
                   ->on('users')
                   ->onDelete('cascade');
             $table->timestamps();
+            $table->timestamp('ciphered_at')->nullable();
             $table->timestamp('deciphered_at')->nullable();
             $table->string('hash');
             $table->string('hash_ciphered')->nullable();
@@ -39,14 +40,6 @@ class CreateFilesTable extends Migration
      */
     public function down()
     {
-        /*
-        Schema::table('files', function($table) {
-            // Attention, le drop sera impossible si ces champs n'existent pas
-            $table->dropForeign(['sender_id']);
-            $table->dropForeign(['recipient_id']);
-        });
-        */
-
         Schema::dropIfExists('files');
     }
 }
