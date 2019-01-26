@@ -18,7 +18,6 @@ class CreateFilesTable extends Migration
             $table->integer('sender_id');
             $table->integer('recipient_id');
             $table->timestamps();
-            //$table->timestamp('ciphered_at');
             $table->timestamp('deciphered_at')->nullable();
             $table->string('hash');
             $table->string('hash_ciphered')->nullable();

@@ -29,7 +29,7 @@ class FilesSeeder extends Seeder
 	        	}
 	        });
 	    }else{
-	    	$error = "Not enough users found for files seeding (only ".$nbUsers."). Users seeding must have fail.";
+	    	$error = "Not enough users found for files seeding (only ".$nbUsers."). Users seeder must have failed.";
 	    	$this->command->error($error);
 	    }
     }
