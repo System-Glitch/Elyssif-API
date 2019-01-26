@@ -13,12 +13,12 @@ class CreateFilesTable extends Migration
     {
         Schema::create('files', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('sender_id');
+            $table->integer('sender_id')->unsigned();
             $table->foreign('sender_id')
                   ->references('id')
                   ->on('users')
                   ->onDelete('cascade');
-            $table->integer('recipient_id');
+            $table->integer('recipient_id')->unsigned();
             $table->foreign('recipient_id')
                   ->references('id')
                   ->on('users')
