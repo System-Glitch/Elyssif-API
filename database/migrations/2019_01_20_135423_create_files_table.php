@@ -39,9 +39,14 @@ class CreateFilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('files') {
+        /*
+        Schema::table('files', function($table) {
+            // Attention, le drop sera impossible si ces champs n'existent pas
             $table->dropForeign(['sender_id']);
             $table->dropForeign(['recipient_id']);
-        };
+        });
+        */
+
+        Schema::dropIfExists('files');
     }
 }
