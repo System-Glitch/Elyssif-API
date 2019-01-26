@@ -1,9 +1,7 @@
 <?php
-
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-
 class CreateContactUserTable extends Migration
 {
     /**
@@ -15,12 +13,19 @@ class CreateContactUserTable extends Migration
     {
         Schema::create('contact_user', function (Blueprint $table) {
             $table->integer('user_id');
+            $table->foreign('user_id')
+                  ->references('id')
+                  ->on('users')
+                  ->onDelete('cascade');
             $table->integer('contact_id');
+            $table->foreign('contact_id')
+                  ->references('id')
+                  ->on('users')
+                  ->onDelete('cascade');
             $table->string('notes')->nullable();
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      *
@@ -28,6 +33,9 @@ class CreateContactUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('contact_user');
+        Schema::dropIfExists('contact_user') {
+            $table->dropForeign(['user_id']);
+            $table->dropForeign(['contact_id']);
+        };
     }
 }

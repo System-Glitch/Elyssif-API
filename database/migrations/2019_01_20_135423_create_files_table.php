@@ -1,9 +1,7 @@
 <?php
-
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-
 class CreateFilesTable extends Migration
 {
     /**
@@ -16,7 +14,15 @@ class CreateFilesTable extends Migration
         Schema::create('files', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('sender_id');
+            $table->foreign('sender_id')
+                  ->references('id')
+                  ->on('users')
+                  ->onDelete('cascade');
             $table->integer('recipient_id');
+            $table->foreign('recipient_id')
+                  ->references('id')
+                  ->on('users')
+                  ->onDelete('cascade');
             $table->timestamps();
             $table->timestamp('deciphered_at')->nullable();
             $table->string('hash');
@@ -26,7 +32,6 @@ class CreateFilesTable extends Migration
             $table->double('price')->nullable();
         });
     }
-
     /**
      * Reverse the migrations.
      *
@@ -34,6 +39,9 @@ class CreateFilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('files');
+        Schema::dropIfExists('files') {
+            $table->dropForeign(['sender_id']);
+            $table->dropForeign(['recipient_id']);
+        };
     }
 }
