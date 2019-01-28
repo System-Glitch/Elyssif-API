@@ -2,9 +2,8 @@
 
 namespace App\Repositories;
 
-use Illuminate\Database\Eloquent\Model;
-use App\Repositories\ResourceRepository;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 
 class UserRepository extends ResourceRepository
 {

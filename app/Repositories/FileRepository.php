@@ -2,9 +2,8 @@
 
 namespace App\Repositories;
 
-use Illuminate\Database\Eloquent\Model;
-use App\Repositories\ResourceRepository;
 use App\Models\File;
+use Illuminate\Database\Eloquent\Model;
 
 class FileRepository extends ResourceRepository
 {
