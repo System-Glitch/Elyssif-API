@@ -15,8 +15,8 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Models\File::class, function (Faker $faker) {
     return [
-        'sender_id' => $faker->numberBetween($min = 1, $max = 50),		    // Value received by the factory
-        'recipient_id' => $faker->numberBetween($min = 1, $max = 50),		// Value received by the factory
+        'sender_id' => $faker->numberBetween($min = 1, $max = 50),		    // Value received and overwritten by the factory
+        'recipient_id' => $faker->numberBetween($min = 1, $max = 50),		// Value received and overwritten by the factory
         'ciphered_at' =>$faker->dateTime('now', null),
         'deciphered_at' => $faker->dateTimeBetween('2019-01-01', '2019-05-31', null),
         'hash' => $faker->unique()->sha256,			                         // Random string 
