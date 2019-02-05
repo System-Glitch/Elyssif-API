@@ -18,34 +18,34 @@ class ContactsSeeder extends Seeder
         // Seeding 5 contacts from each user to random users (can not be equal)
         $nbUsers = User::all()->count();
         if($nbUsers == 50){
-	        User::all()->each(function($user) use ($faker){
-	        	for($i = 0; $i < 5; $i++){
-	        		$contact = User::inRandomOrder()->where('id', '!=', $user->id)->first()->id;
+            User::all()->each(function($user) use ($faker){
+                for($i = 0; $i < 5; $i++){
+                    $contact = User::inRandomOrder()->where('id', '!=', $user->id)->first()->id;
 
-	        		$idOwner = $user->id;
-	        		$idTarget = $contact->id;
+                    $idOwner = $user->id;
+                    $idTarget = $contact->id;
 
-	        		// Generating new contact if this contact already exists
-	        		while(User::where([
-	        			['user_id', '=', $idOwner],
-	        			['contact_id', '=', $idTarget],
-	        		])->count() > 0){
-	        			$contact = User::inRandomOrder()->where('id', '!=', $user->id)->first()->id;
+                    // Generating new contact if this contact already exists
+                    while(User::where([
+                        ['user_id', '=', $idOwner],
+                        ['contact_id', '=', $idTarget],
+                    ])->count() > 0){
+                        $contact = User::inRandomOrder()->where('id', '!=', $user->id)->first()->id;
 
-		        		$idOwner = $user->id;
-		        		$idTarget = $contact->id;
-	        		}
+                        $idOwner = $user->id;
+                        $idTarget = $contact->id;
+                    }
 
-	        		$notes = [
-	        			'notes' => $faker->text($maxNbChars = 200),
-	        		];
+                    $notes = [
+                        'notes' => $faker->text($maxNbChars = 200),
+                    ];
 
-		        	$user->contacts()->attach($contact, $notes);
-	        	}
-	        });
-	    }else{
-	    	$error = "Not enough users found for contacts seeding (only ".$nbUsers."). Users seeder must have failed.";
-	    	$this->command->error($error);
-	    }
+                    $user->contacts()->attach($contact, $notes);
+                }
+            });
+        }else{
+            $error = "Not enough users found for contacts seeding (only ".$nbUsers."). Users seeder must have failed.";
+            $this->command->error($error);
+        }
     }
 }
