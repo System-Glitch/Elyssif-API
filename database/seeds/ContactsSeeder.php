@@ -20,17 +20,17 @@ class ContactsSeeder extends Seeder
         if($nbUsers == 50){
             User::all()->each(function($user) use ($faker){
                 for($i = 0; $i < 5; $i++){
-                    $contact = User::inRandomOrder()->where('id', '!=', $user->id)->first()->id;
+                    $contact = User::inRandomOrder()->where('id', '!=', $user->id)->first();
 
                     $idOwner = $user->id;
                     $idTarget = $contact->id;
 
                     // Generating new contact if this contact already exists
-                    while(User::where([
+                    while(DB::table('contact_user')->where([
                         ['user_id', '=', $idOwner],
                         ['contact_id', '=', $idTarget],
                     ])->count() > 0){
-                        $contact = User::inRandomOrder()->where('id', '!=', $user->id)->first()->id;
+                        $contact = User::inRandomOrder()->where('id', '!=', $user->id)->first();
 
                         $idOwner = $user->id;
                         $idTarget = $contact->id;
