@@ -32,7 +32,7 @@ class CreateFilesTable extends Migration
             $table->string('hash_ciphered')->nullable();
             $table->string('public_key');
             $table->string('private_key');
-            $table->double('price')->nullable();
+            $table->double('price')->default(0);
         });
     }
     /**

@@ -14,7 +14,9 @@ class FilesSeeder extends Seeder
      */
     public function run()
     {
-        if(User::all()->count() == 50){
+        $nbUsers = User::all()->count();
+        
+        if($nbUsers > 5){
             // Seeding 5 files from each user to random users (can be equal)
             User::all()->each(function($user){
                 $id1 = $user->id;
