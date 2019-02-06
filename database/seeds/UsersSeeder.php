@@ -11,10 +11,10 @@ class UsersSeeder extends Seeder
      *
      * @return void
      */
-    public $nbUsers = 50;
+    const nbUsers = 50;
 
     public function run()
     {
-        factory(User::class, $this->nbUsers)->create();
+        factory(User::class, self::nbUsers)->create();
     }
 }
