@@ -10,7 +10,6 @@ use App\Http\Requests\Files\FileFetchRequest;
 use App\Http\Requests\Files\FileUpdateRequest;
 use App\Models\File;
 use App\Repositories\FileRepository;
-use App\Repositories\ResourceRepository;
 use Illuminate\Http\Response;
 
 class FileController extends Controller
@@ -36,12 +35,7 @@ class FileController extends Controller
      */
     public function indexSent(SearchRequest $request)
     {
-        $files = $request->user()->sentFiles();
-        if($request->input('search')) {
-            $files = $files->where('name', 'LIKE', '%'.ResourceRepository::escape_like($request->input('search')).'%');            
-        }
-        
-        return $files->get();
+        return $this->fileRepository->getSentFilesPaginate($request->user(), $request->input('search'));
     }
     
     /**
@@ -51,12 +45,7 @@ class FileController extends Controller
      */
     public function indexReceived(SearchRequest $request)
     {
-        $files = $request->user()->receivedFiles();
-        if($request->input('search')) {
-            $files = $files->where('name', 'LIKE', '%'.ResourceRepository::escape_like($request->input('search')).'%');
-        }
-        
-        return $files->get();
+        return $this->fileRepository->getReceivedFilesPaginate($request->user(), $request->input('search'));
     }
 
     /**
