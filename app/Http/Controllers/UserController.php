@@ -19,7 +19,7 @@ class UserController extends Controller
      */
     public function __construct(UserRepository $userRepository)
     {
-        $this->fileRepository = $userRepository;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -31,8 +31,8 @@ class UserController extends Controller
     public function index(SearchRequest $request)
     {
         return $request->input('search') ?
-            $this->jingleRepository->getWhere('name', 'LIKE', $request->input('search')):
-            $this->jingleRepository->getAll();
+            $this->userRepository->getWhere('name', 'LIKE', $request->input('search')):
+            $this->userRepository->getAll();
     }
 
     /**
