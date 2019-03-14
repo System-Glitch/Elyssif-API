@@ -62,10 +62,7 @@ class FileRepository extends ResourceRepository
     protected function save(Model $model, Array $inputs)
     {
         $model->name = $inputs['name'];
-        $model->ciphered_at = $inputs['ciphered_at'];
-        $model->deciphered_at = $inputs['deciphered_at'];
         $model->hash = $inputs['hash'];
-        $model->hash_ciphered = $inputs['hash_ciphered'];
         $model->public_key = $inputs['public_key']; // TODO generate keys
         $model->private_key = $inputs['private_key'];
         $model->price = $inputs['price'];
