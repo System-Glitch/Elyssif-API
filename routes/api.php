@@ -20,6 +20,11 @@ Route::middleware('auth:api')->group(function () {
     });
 
     Route::delete('/logout', 'Auth\\ApiLoginController@logout');
+
+    Route::resource('files', 'FileController', ['except' => ['create', 'edit']]);
+    Route::put('files/{file}/cipher', 'FileController@cipher')->name('files.cipher');
+    Route::get('files/fetch', 'FileController@fetch')->name('files.fetch');
+    Route::get('files/check', 'FileController@check')->name('files.check');
 });
 
 Route::post('/register', 'Auth\\ApiRegisterController@register');
