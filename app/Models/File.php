@@ -20,7 +20,7 @@ class File extends Model
     /**
      * Get the sender for this file.
      *
-     * @return Illuminate/Database/Eloquent/Relations/BelongsTo
+     * @return \Illuminate/Database/Eloquent/Relations/BelongsTo
      */
     public function sender()
     {
@@ -30,7 +30,7 @@ class File extends Model
     /**
      * Get the recipient for this file.
      *
-     * @return Illuminate/Database/Eloquent/Relations/BelongsTo
+     * @return \Illuminate/Database/Eloquent/Relations/BelongsTo
      */
     public function recipient()
     {
