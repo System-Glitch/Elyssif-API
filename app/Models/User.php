@@ -45,7 +45,7 @@ class User extends Authenticatable
      */
     public function sentFiles()
     {
-        return $this->hasMany('App\Models\File', 'id_sender');
+        return $this->hasMany('App\Models\File', 'sender_id');
     }
 
     /**
@@ -55,6 +55,6 @@ class User extends Authenticatable
      */
     public function receivedFiles()
     {
-        return $this->hasMany('App\Models\File', 'id_recipient');
+        return $this->hasMany('App\Models\File', 'recipient_id');
     }
 }

@@ -24,7 +24,7 @@ class File extends Model
      */
     public function sender()
     {
-        return $this->belongsTo('App\Models\User', 'id_sender');
+        return $this->belongsTo('App\Models\User', 'sender_id');
     }
 
     /**
@@ -34,7 +34,7 @@ class File extends Model
      */
     public function recipient()
     {
-        return $this->belongsTo('App\Models\User', 'id_recipient');
+        return $this->belongsTo('App\Models\User', 'recipiend_id');
     }
 
 }
