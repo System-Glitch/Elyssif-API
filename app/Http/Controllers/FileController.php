@@ -110,9 +110,9 @@ class FileController extends Controller
         }
         
         $inputs = [];
-        if(!empty($request->input('name'))) $inputs[] = $request->input('name');
-        if(!empty($request->input('price'))) $inputs[] = $request->input('price');
-        
+        if(!empty($request->input('name'))) $inputs['name'] = $request->input('name');
+        if($request->has('price')) $inputs['price'] = $request->input('price');
+
         if(count($inputs)) {
             $this->fileRepository->update($file, $inputs);
         }
