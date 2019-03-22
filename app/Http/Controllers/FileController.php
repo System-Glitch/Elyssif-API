@@ -163,7 +163,7 @@ class FileController extends Controller
             return new Response('', Response::HTTP_FORBIDDEN);
         }
         
-        $this->fileRepository->destroy(file);
+        $this->fileRepository->destroy($file);
         return new Response('', Response::HTTP_NO_CONTENT);
     }
 }
