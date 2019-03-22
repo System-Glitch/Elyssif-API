@@ -25,6 +25,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('files/sent', 'FileController@indexSent')->name('files.index.sent');
     Route::get('files/received', 'FileController@indexReceived')->name('files.index.received');
+    Route::post('files/', 'FileController@store')->name('files.store');
     Route::put('files/{file}', 'FileController@update')->name('files.update');
     Route::get('files/{file}', 'FileController@show')->name('files.show');
     Route::delete('files/{file}', 'FileController@destroy')->name('files.destroy');
