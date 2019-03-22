@@ -18,6 +18,15 @@ class File extends Model
     ];
 
     /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'public_key', 'private_key', 'hash', 'hash_ciphered'
+    ];
+
+    /**
      * Get the sender for this file.
      *
      * @return \Illuminate/Database/Eloquent/Relations/BelongsTo
