@@ -97,9 +97,10 @@ class FileRepository extends ResourceRepository
     {
         $model->name = $inputs['name'];
         $model->hash = $inputs['hash'];
-        $model->public_key = $inputs['public_key']; // TODO generate keys
-        $model->private_key = $inputs['private_key'];
-        $model->price = $inputs['price'];
+        $model->public_key = 'pbk'; // TODO generate keys
+        $model->private_key = 'pvk';
+
+        if(isset($inputs['price'])) $model->price = $inputs['price'];
         $model->sender_id = $inputs['sender_id'];
         $model->recipient_id = $inputs['recipient_id'];
 

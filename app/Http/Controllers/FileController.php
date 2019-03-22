@@ -57,9 +57,12 @@ class FileController extends Controller
     public function store(FileCreateRequest $request)
     {
         $inputs = $request->only(['name', 'recipient_id', 'hash', 'price']);
-        $inputs->put('sender_id', $request->user()->id);
+        $inputs['sender_id'] = $request->user()->id;
         $file = $this->fileRepository->store($inputs);
-        return response()->json($file->private_key, Response.HTTP_CREATED);
+        return response()->json([
+            'id' => $file->id,
+            'private_key' => $file->private_key
+        ], Response::HTTP_CREATED);
     }
     
     /**
