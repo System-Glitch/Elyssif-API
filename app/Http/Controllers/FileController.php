@@ -79,7 +79,7 @@ class FileController extends Controller
         
         $this->fileRepository->update($file, [
             'ciphered_at' => now(),
-            'ciphered_hash' => $request->input('ciphered_hash')
+            'hash_ciphered' => $request->input('ciphered_hash')
         ]);
         
         return new Response('', Response::HTTP_NO_CONTENT);

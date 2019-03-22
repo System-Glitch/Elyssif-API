@@ -65,7 +65,7 @@ class FileRepository extends ResourceRepository
     public function getFileForCheck(User $user, $cipheredHash, $hash)
     {
         return $user->receivedFiles()
-                    ->where('ciphered_hash', $cipheredHash)
+                    ->where('hash_ciphered', $cipheredHash)
                     ->where('hash', $hash)
                     ->first();
     }
@@ -82,7 +82,7 @@ class FileRepository extends ResourceRepository
     public function getFileForFetch(User $user, $cipheredHash)
     {
         return $user->receivedFiles()
-                    ->where('ciphered_hash', $cipheredHash)
+                    ->where('hash_ciphered', $cipheredHash)
                     ->select('public_key')->first();
     }
 
