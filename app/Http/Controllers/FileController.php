@@ -147,7 +147,7 @@ class FileController extends Controller
     {
         $file = $this->fileRepository->getFileForCheck($request->user(), $request->input('ciphered_hash'), $request->input('hash'));
 
-        if($file != null) {
+        if($file != null && empty($file->deciphered_at)) {
             $this->fileRepository->update($file, ['deciphered_at' => now()]);
         }
                                 
