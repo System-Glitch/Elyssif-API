@@ -90,7 +90,7 @@ class FileController extends Controller
      */
     public function show(File $file)
     {
-        return $file->sender_id == request()->user() ? $file : new Response('', Response::HTTP_FORBIDDEN);
+        return $file->sender_id == request()->user()->id ? $file : new Response('', Response::HTTP_FORBIDDEN);
     }
 
     /**

@@ -25,10 +25,10 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('files/sent', 'FileController@indexSent')->name('files.index.sent');
     Route::get('files/received', 'FileController@indexReceived')->name('files.index.received');
-    Route::put('files/{file:[0-9]+}', 'FileController@update')->name('files.update');
-    Route::get('files/{file:[0-9]+}', 'FileController@show')->name('files.show');
-    Route::delete('files/{file:[0-9]+}', 'FileController@destroy')->name('files.destroy');
-    Route::put('files/{file:[0-9]+}/cipher', 'FileController@cipher')->name('files.cipher');
+    Route::put('files/{file}', 'FileController@update')->name('files.update');
+    Route::get('files/{file}', 'FileController@show')->name('files.show');
+    Route::delete('files/{file}', 'FileController@destroy')->name('files.destroy');
+    Route::put('files/{file}/cipher', 'FileController@cipher')->name('files.cipher');
     Route::get('files/fetch', 'FileController@fetch')->name('files.fetch');
     Route::get('files/check', 'FileController@check')->name('files.check');
 });
