@@ -61,7 +61,7 @@ class FileController extends Controller
         $file = $this->fileRepository->store($inputs);
         return response()->json([
             'id' => $file->id,
-            'private_key' => $file->private_key
+            'private_key' => $file->public_key
         ], Response::HTTP_CREATED);
     }
     
@@ -131,7 +131,7 @@ class FileController extends Controller
         $file = $this->fileRepository->getFileForFetch($request->user(), $request->input('ciphered_hash'));
 
         if($file != null) {
-            return response()->json($file->public_key);
+            return response()->json($file->private_key);
         } else {
             return new Response('', Response::HTTP_NOT_FOUND);
         }
