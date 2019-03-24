@@ -11,6 +11,7 @@ use App\Http\Requests\Files\FileUpdateRequest;
 use App\Models\File;
 use App\Repositories\FileRepository;
 use Illuminate\Http\Response;
+use Elliptic\EC;
 
 class FileController extends Controller
 {
@@ -58,12 +59,32 @@ class FileController extends Controller
     {
         $inputs = $request->only(['name', 'recipient_id', 'hash', 'price']);
         $inputs['sender_id'] = $request->user()->id;
+        
+        $keyPair = $this->generateKeys();
+
+        $inputs['public_key'] = $keyPair->getPublic(false,'hex');
+        $inputs['private_key'] = $keyPair->getPrivate('hex');
+        
         $file = $this->fileRepository->store($inputs);
         return response()->json([
             'id' => $file->id,
-            'private_key' => $file->public_key
+            'public_key' => $file->public_key
         ], Response::HTTP_CREATED);
     }
+
+    /**
+     * Generate Keys using the "secp256k1" Elliptic Curve method
+     *
+     * @param  No params
+     * @return 
+     */
+
+    public function generateKeys(){
+        $ec = new EC('secp256k1');
+
+        return $ec->genKeyPair();
+    }
+
     
     /**
      * Set the ciphered hash of the specified resource

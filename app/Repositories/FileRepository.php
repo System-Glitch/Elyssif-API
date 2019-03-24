@@ -83,7 +83,7 @@ class FileRepository extends ResourceRepository
     {
         return $user->receivedFiles()
                     ->where('hash_ciphered', $cipheredHash)
-                    ->select('public_key')->first();
+                    ->select('private_key')->first();
     }
 
     /**
@@ -97,8 +97,10 @@ class FileRepository extends ResourceRepository
     {
         $model->name = $inputs['name'];
         $model->hash = $inputs['hash'];
-        $model->public_key = 'pbk'; // TODO generate keys
-        $model->private_key = 'pvk';
+
+        $model->public_key = $inputs['public_key'];
+        $model->private_key = $inputs['private_key'];
+
 
         if(isset($inputs['price'])) $model->price = $inputs['price'];
         $model->sender_id = $inputs['sender_id'];
