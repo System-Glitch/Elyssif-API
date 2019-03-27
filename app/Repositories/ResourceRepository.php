@@ -176,7 +176,8 @@ abstract class ResourceRepository
      */
     public function getPaginateWhere(string $column, string $operator, $value, int $n = ResourceRepository::AMOUNT_PER_PAGE, $columns = ['*'])
     {
-        return $this->model->where($column, $operator, $value)->select($columns)->paginate($n);
+        $search = $operator == 'LIKE' ? '%'.$this->escapeLike($value).'%' : $value;
+        return $this->model->where($column, $operator, $search)->select($columns)->paginate($n);
     }
 
     /**

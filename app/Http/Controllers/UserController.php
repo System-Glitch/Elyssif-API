@@ -31,8 +31,8 @@ class UserController extends Controller
     public function index(SearchRequest $request)
     {
         return $request->input('search') ?
-            $this->userRepository->getWhere('name', 'LIKE', $request->input('search')):
-            $this->userRepository->getAll();
+            $this->userRepository->getPaginateWhere('name', 'LIKE', $request->input('search')):
+            $this->userRepository->getPaginate();
     }
 
     /**
