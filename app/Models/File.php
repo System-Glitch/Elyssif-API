@@ -43,7 +43,7 @@ class File extends Model
      */
     public function recipient()
     {
-        return $this->belongsTo('App\Models\User', 'recipiend_id');
+        return $this->belongsTo('App\Models\User', 'recipient_id');
     }
 
 }

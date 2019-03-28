@@ -152,7 +152,7 @@ class FileController extends Controller
         $file = $this->fileRepository->getFileForFetch($request->user(), $request->input('ciphered_hash'));
 
         if($file != null) {
-            return response()->json($file->private_key);
+            return $file->makeVisible('private_key')->toArray();
         } else {
             return new Response('', Response::HTTP_NOT_FOUND);
         }
