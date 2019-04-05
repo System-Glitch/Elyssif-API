@@ -34,7 +34,7 @@ class FileRepository extends ResourceRepository
             $files = $files->where('name', 'LIKE', '%'.$this->escape_like($search).'%');
         }
 
-        return $files->select($columns)->paginate($n);
+        return $files->select($columns)->with('recipient:id,name,email')->paginate($n);
     }
 
     /**
@@ -51,7 +51,7 @@ class FileRepository extends ResourceRepository
             $files = $files->where('name', 'LIKE', '%'.$this->escape_like($search).'%');
         }
 
-        return $files->select($columns)->paginate($n);
+        return $files->select($columns)->with('sender:id,name,email')->paginate($n);
     }
 
     /**
