@@ -29,7 +29,7 @@ class FileRepository extends ResourceRepository
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public function getSentFilesPaginate(User $user, $search = null, int $n = ResourceRepository::AMOUNT_PER_PAGE, $columns = ['*']) {
-        $files = $user->sentFiles();
+        $files = $user->sentFiles()->whereNotNull('ciphered_at');
         if($search) {
             $files = $files->where('name', 'LIKE', '%'.$this->escape_like($search).'%');
         }
@@ -49,7 +49,7 @@ class FileRepository extends ResourceRepository
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public function getReceivedFilesPaginate(User $user, $search = null, int $n = ResourceRepository::AMOUNT_PER_PAGE, $columns = ['*']) {
-        $files = $user->receivedFiles();
+        $files = $user->receivedFiles()->whereNotNull('ciphered_at');
         if($search) {
             $files = $files->where('name', 'LIKE', '%'.$this->escape_like($search).'%');
         }
