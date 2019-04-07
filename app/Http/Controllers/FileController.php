@@ -57,15 +57,20 @@ class FileController extends Controller
      */
     public function store(FileCreateRequest $request)
     {
-        $inputs = $request->only(['name', 'recipient_id', 'hash', 'price']);
-        $inputs['sender_id'] = $request->user()->id;
-        
-        $keyPair = $this->generateKeys();
+        // Check if file already exists but not encrypted yet
+        $file = $this->fileRepository->getUnencrypted($request->user()->id, $request->input('hash'));
 
-        $inputs['public_key'] = $keyPair->getPublic(false,'hex');
-        $inputs['private_key'] = $keyPair->getPrivate('hex');
-        
-        $file = $this->fileRepository->store($inputs);
+        if($file == null) {
+            $inputs = $request->only(['name', 'recipient_id', 'hash', 'price']);
+            $inputs['sender_id'] = $request->user()->id;
+
+            $keyPair = $this->generateKeys();
+
+            $inputs['public_key'] = $keyPair->getPublic(false,'hex');
+            $inputs['private_key'] = $keyPair->getPrivate('hex');
+
+            $file = $this->fileRepository->store($inputs);
+        }
         return response()->json([
             'id' => $file->id,
             'public_key' => $file->public_key

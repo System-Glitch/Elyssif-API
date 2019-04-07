@@ -78,8 +78,7 @@ class FileRepository extends ResourceRepository
 
     /**
      * Get a file matching the given ciphered hash
-     * from the given user's received files. Only
-     * the "public_key" column is selected.
+     * from the given user's received files.
      * @param \App\Models\User  $user
      * @param string  $cipheredHash
      * @param string  $hash
@@ -92,6 +91,19 @@ class FileRepository extends ResourceRepository
                     ->select('id', 'private_key', 'name', 'sender_id')
                     ->with('sender:id,name,email')
                     ->first();
+    }
+
+    /**
+     * Find an unencrypted file (ciphered_at is null) by
+     * its hash. Only the id and the public key columns are selected.
+     * @param int  senderId
+     * @param string  $hash
+     */
+    public function getUnencrypted(int $senderId, $hash)
+    {
+        return $this->model->where('hash', $hash)
+                           ->where('sender_id', $senderId)
+                           ->select('id', 'public_key')->first();
     }
 
     /**
