@@ -58,7 +58,7 @@ class FileController extends Controller
     public function store(FileCreateRequest $request)
     {
         // Check if file already exists but not encrypted yet
-        $file = $this->fileRepository->getUnencrypted($request->user()->id, $request->input('hash'));
+        $file = $this->fileRepository->getUnencrypted($request->user()->id, $request->input('name'), $request->input('hash'));
 
         if($file == null) {
             $inputs = $request->only(['name', 'recipient_id', 'hash', 'price']);

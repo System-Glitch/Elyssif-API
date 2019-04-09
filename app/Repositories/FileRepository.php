@@ -95,14 +95,18 @@ class FileRepository extends ResourceRepository
 
     /**
      * Find an unencrypted file (ciphered_at is null) by
-     * its hash. Only the id and the public key columns are selected.
+     * its hash and name.
+     * Only the id and the public key columns are selected.
      * @param int  senderId
+     * @param string  $name
      * @param string  $hash
      */
-    public function getUnencrypted(int $senderId, $hash)
+    public function getUnencrypted(int $senderId, $name, $hash)
     {
         return $this->model->where('hash', $hash)
+                           ->where('name', $name)
                            ->where('sender_id', $senderId)
+                           ->whereNull('ciphered_at')
                            ->select('id', 'public_key')->first();
     }
 
