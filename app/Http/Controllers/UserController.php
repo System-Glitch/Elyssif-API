@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SearchRequest;
+use App\Http\Requests\UserPasswordRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
 use App\Repositories\UserRepository;
@@ -66,6 +67,18 @@ class UserController extends Controller
         }
 
         $this->userRepository->update($user, $data);
+        return new Response('', Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     * Update the password of the currently authenticated user
+     *
+     * @param  \App\Http\Requests\UserPasswordRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function updatePassword(UserPasswordRequest $request)
+    {
+        $this->userRepository->update($request->user(), $request->only(['password']));
         return new Response('', Response::HTTP_NO_CONTENT);
     }
 

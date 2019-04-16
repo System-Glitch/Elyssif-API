@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
@@ -56,5 +57,16 @@ class User extends Authenticatable
     public function receivedFiles()
     {
         return $this->hasMany('App\Models\File', 'recipient_id');
+    }
+
+    /**
+     * Hash and set the user's password.
+     *
+     * @param  string  $password
+     * @return void
+     */
+    public function setPasswordAttribute(string $password)
+    {
+        $this->attributes['password'] = Hash::make($password);
     }
 }

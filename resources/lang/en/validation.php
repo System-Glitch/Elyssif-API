@@ -115,6 +115,7 @@ return [
     'uploaded' => 'The :attribute failed to upload.',
     'url' => 'The :attribute format is invalid.',
     'uuid' => 'The :attribute must be a valid UUID.',
+    'password' => 'Incorrect password.',
 
     /*
     |--------------------------------------------------------------------------
@@ -128,8 +129,12 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'email' => [
+            'email' => 'Invalid email address.',
+        ],
+        'password' => [
+            'min' => 'The password must be at least :min characters long.',
+            'confirmed' => 'The password confirmation does not match.',
         ],
     ],
 
