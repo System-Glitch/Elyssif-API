@@ -21,8 +21,8 @@ Route::middleware('auth:api')->group(function () {
 
     Route::delete('/logout', 'Auth\\ApiLoginController@logout');
 
+    Route::put('users/password', 'UserController@updatePassword')->name('users.update_password');
     Route::resource('users', 'UserController', ['only' => ['index', 'update', 'show']]);
-    Route::put('user/password', 'UserController@updatePassword')->name('users.update_password');
 
     Route::get('files/sent', 'FileController@indexSent')->name('files.index.sent');
     Route::get('files/received', 'FileController@indexReceived')->name('files.index.received');
