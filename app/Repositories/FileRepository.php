@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\File;
 use App\Models\User;
+use App\Models\Transaction;
 use Illuminate\Database\Eloquent\Model;
 
 class FileRepository extends ResourceRepository
@@ -108,6 +109,20 @@ class FileRepository extends ResourceRepository
                            ->where('sender_id', $senderId)
                            ->whereNull('ciphered_at')
                            ->select('id', 'public_key')->first();
+    }
+
+    /**
+     * Get the payment state of the given file.
+     * (Amount awaiting confirmation and confirmed amount)
+     * @param File $file
+     * @return array
+     */
+    public function getPaymentState(File $file)
+    {
+        $state = [];
+        $state['pending'] = Transaction::where('confirmations', '<', env('MIN_CONFIRMATIONS', 3))->where('file_id', $file->id)->sum('amount');
+        $state['confirmed'] = Transaction::where('confirmations', '>=', env('MIN_CONFIRMATIONS', 3))->where('file_id', $file->id)->sum('amount');
+        return $state;
     }
 
     /**
