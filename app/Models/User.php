@@ -32,7 +32,7 @@ class User extends Authenticatable
     /**
      * Get the contacts for this user.
      *
-     * @return \Illuminate/Database/Eloquent/Relations/BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function contacts()
     {
@@ -42,7 +42,7 @@ class User extends Authenticatable
     /**
      * Get the files this user has sent.
      *
-     * @return \Illuminate/Database/Eloquent/Relations/HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function sentFiles()
     {
@@ -52,7 +52,7 @@ class User extends Authenticatable
     /**
      * Get the files this user has received.
      *
-     * @return \Illuminate/Database/Eloquent/Relations/HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function receivedFiles()
     {
