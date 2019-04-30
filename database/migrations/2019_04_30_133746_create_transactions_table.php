@@ -20,6 +20,7 @@ class CreateTransactionsTable extends Migration
             ->references('id')
             ->on('files')
             ->onDelete('cascade');
+            $table->string('txid')->unique();
             $table->integer('confirmations')->unsigned()->default(0);
             $table->double('amount')->default(0);
             $table->timestamps();
