@@ -64,6 +64,7 @@ setup_bitcoin()
 	echo "Setting up bitcoind..."
 	cat <<EOF > /etc/bitcoin/bitcoin.conf
 regtest=1
+bind=127.0.0.1:18445
 EOF
 
 	echo "Generate RPC auth"
