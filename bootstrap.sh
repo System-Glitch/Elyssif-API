@@ -7,9 +7,10 @@ prepare()
 {
 	cd /vagrant
 
-	sudo apt-get install software-properties-common
-	sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
-	sudo add-apt-repository 'deb [arch=amd64,arm64,ppc64el] http://mariadb.mirrors.ovh.net/MariaDB/repo/10.3/ubuntu bionic main'
+	apt-get install software-properties-common
+	apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
+	add-apt-repository 'deb [arch=amd64,arm64,ppc64el] http://mariadb.mirrors.ovh.net/MariaDB/repo/10.3/ubuntu bionic main'
+	add-apt-repository ppa:bitcoin/bitcoin
 	apt-get update
 
 	debconf-set-selections <<< 'maria-db-10.3 mysql-server/root_password password root'
@@ -27,6 +28,7 @@ install_dependencies()
 	apt-get install -y composer npm
 	apt-get install -y git
 	apt-get install -y supervisor
+	apt-get install -y python3 bitcoind
 
 	apt-get -y autoremove
 
@@ -57,6 +59,19 @@ setup_database()
 	php artisan db:seed
 }
 
+setup_bitcoin()
+{
+	echo "Setting up bitcoind..."
+	cat <<EOF > /etc/bitcoin/bitcoin.conf
+regtest=1
+EOF
+
+	echo "Generate RPC auth"
+	python3 /vagrant/rpcauth.py laravel /etc/bitcoin/bitcoin.conf /vagrant/.env
+	service bitcoind start
+	systemctl enable bitcoind
+}
+
 setup_worker()
 {
 	echo "Setting up worker"
@@ -66,11 +81,12 @@ process_name=%(program_name)s_%(process_num)02d
 command=php /vagrant/artisan queue:work --sleep=3 --tries=3
 autostart=true
 autorestart=true
-user=vagrant
+user=www-data
 numprocs=1
 redirect_stderr=true
 stdout_logfile=/vagrant/storage/logs/worker.log
 EOF
+
 }
 
 configure_apache()
@@ -137,8 +153,9 @@ MAIL_ENCRYPTION=tls
 PUSHER_APP_ID=
 PUSHER_APP_KEY=
 PUSHER_APP_SECRET=
-
 EOF
+
+	setup_bitcoin
 
 	chmod 777 .env
 	php artisan key:generate
