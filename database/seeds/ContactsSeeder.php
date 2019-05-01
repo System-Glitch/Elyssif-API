@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+use Illuminate\Database\Seeder;
 
 class ContactsSeeder extends Seeder
 {
@@ -32,7 +31,7 @@ class ContactsSeeder extends Seeder
                     $takenIds[] = $idTarget;
 
                     $notes = [
-                        'notes' => $faker->text($maxNbChars = 200),
+                        'notes' => $faker->text(200),
                     ];
 
                     $user->contacts()->attach($contact, $notes);
