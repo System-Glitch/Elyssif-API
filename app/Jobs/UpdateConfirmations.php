@@ -47,11 +47,11 @@ class UpdateConfirmations implements ShouldQueue
             // Filter negative amount (means it's a send transaction, not receive)
             return $tx['amount'] > 0;
         });
-        
+
         $chunks = $txids->chunk(self::CHUNK_SIZE);
 
         foreach($chunks as $chunk) {
-            Transaction::whereNotIn('txid', $chunk)->update(['confirmed' => 1]);            
-        }        
+            Transaction::whereNotIn('txid', $chunk)->update(['confirmed' => 1]);
+        }
     }
 }
