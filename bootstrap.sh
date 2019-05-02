@@ -95,6 +95,24 @@ EOF
 
 }
 
+setup_socket_io_server()
+{
+	echo "Setting up socket.io worker"
+	cp /vagrant/laravel-echo-server.json.example /vagrant/laravel-echo-server.json
+	cat <<EOF > /etc/supervisor/conf.d/laravel-echo.conf
+[program:laravel-echo]
+directory=/var/www
+process_name=%(program_name)s_%(process_num)02d
+command=laravel-echo-server start
+autostart=true
+autorestart=true
+user=vagrant
+numprocs=1
+redirect_stderr=true
+stdout_logfile=/var/www/storage/logs/echo.log
+EOF
+}
+
 configure_apache()
 {
 	separator
@@ -123,6 +141,7 @@ configure()
 
 	configure_apache
 	setup_worker
+	setup_socket_io_server
 	chmod -R 777 /vagrant/storage/
 	chmod -R 777 /vagrant/bootstrap/
 
@@ -140,7 +159,7 @@ DB_DATABASE=elyssif
 DB_USERNAME=laravel
 DB_PASSWORD=secret
 
-BROADCAST_DRIVER=log
+BROADCAST_DRIVER=redis
 CACHE_DRIVER=file
 SESSION_DRIVER=file
 QUEUE_CONNECTION=redis
@@ -188,9 +207,9 @@ start_worker()
 
 	supervisorctl reread
 	supervisorctl update
-	supervisorctl start laravel-worker:*	
+	supervisorctl start laravel-worker:*
+	supervisorctl start laravel-echo:*
 }
-
 
 register_cron_task()
 {

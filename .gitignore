@@ -18,3 +18,5 @@ composer.phar
 .buildpath
 .project
 .settings/
+laravel-echo-server.json
+laravel-echo-server.lock
