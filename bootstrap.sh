@@ -25,12 +25,16 @@ install_dependencies()
 	apt-get install -y apache2 apache2-utils libexpat1 ssl-cert
 	apt-get install -y php7.2 libapache2-mod-php7.2 php7.2-curl php7.2-mysql php7.2-json php7.2-gd php7.2-intl php7.2-gmp php7.2-mbstring php7.2-xml php7.2-zip php7.2-bcmath
 	apt-get install -y mariadb-server mariadb-client
+	apt-get install -y redis-server redis-tools
 	apt-get install -y composer npm
 	apt-get install -y git
 	apt-get install -y supervisor
 	apt-get install -y python3 bitcoind
 
 	apt-get -y autoremove
+
+	npm install --global cross-env
+	npm install --global laravel-echo-server
 
 	composer install
 }
@@ -65,6 +69,7 @@ setup_bitcoin()
 	cat <<EOF > /etc/bitcoin/bitcoin.conf
 regtest=1
 bind=127.0.0.1:18445
+blocknotify=php /vagrant/artisan bitcoin:confirmations
 EOF
 
 	echo "Generate RPC auth"
@@ -138,7 +143,7 @@ DB_PASSWORD=secret
 BROADCAST_DRIVER=log
 CACHE_DRIVER=file
 SESSION_DRIVER=file
-QUEUE_DRIVER=database
+QUEUE_CONNECTION=redis
 
 REDIS_HOST=127.0.0.1
 REDIS_PASSWORD=null
@@ -155,6 +160,7 @@ PUSHER_APP_ID=
 PUSHER_APP_KEY=
 PUSHER_APP_SECRET=
 
+MIN_CONFIRMATIONS=3
 BITCOIND_HOST=localhost:18443
 EOF
 
@@ -165,6 +171,8 @@ EOF
 
 	setup_database
 	php artisan passport:install
+
+	register_cron_task
 }
 
 install()
