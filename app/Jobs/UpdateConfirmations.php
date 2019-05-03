@@ -8,6 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\Models\Transaction;
+use App\Events\TransactionNotification;
 
 /**
  * Check for confirmed transactions.
@@ -51,6 +52,12 @@ class UpdateConfirmations implements ShouldQueue
         $chunks = $txids->chunk(self::CHUNK_SIZE);
 
         foreach($chunks as $chunk) {
+            $updated = Transaction::whereNotIn('txid', $chunk)->where('confirmed', 0)->select('id, file_id')->get();
+
+            foreach($updated as $tx) {
+                event(new TransactionNotification($tx->file_id));
+            }
+
             Transaction::whereNotIn('txid', $chunk)->update(['confirmed' => 1]);
         }
     }
