@@ -4,7 +4,6 @@ namespace App\Events;
 
 use App\Models\File;
 use App\Repositories\FileRepository;
-use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -17,7 +16,7 @@ use Illuminate\Queue\SerializesModels;
  */
 class TransactionNotification implements ShouldBroadcast
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable, SerializesModels;
 
     /**
      * The file related to the confirmed transaction.
