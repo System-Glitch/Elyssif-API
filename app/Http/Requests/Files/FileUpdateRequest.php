@@ -24,7 +24,7 @@ class FileUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'nullable|string|min:3|max:255',
+            'name' => 'nullable|string|min:3|max:40',
             'price' => 'nullable|numeric|min:0'
         ];
     }
