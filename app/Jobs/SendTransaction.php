@@ -19,14 +19,20 @@ use App\Events\TransactionNotification;
 
 class SendTransactions {
 
+	protected $address;
+	protected $amount;
+	protected $feesDeducted;
+
 	/**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(string $address, double $amount, boolean $feesDeducted)
     {
-        //
+        $this->address = $address;
+        $this->amount = $amount;
+        $this->feesDeducted = $feesDeducted;
     }
 
     /**
@@ -34,11 +40,20 @@ class SendTransactions {
      *
      * @return void
      */
-    public function handle(string $address, double $amount, boolean $feesDeducted)
+    public function handle()
     {
         $bitcoind = bitcoind();
-        
+
         //Elyssif Wallet must be unlocked for this to work
-        $txid = $bitcoind->sendToAddress($address, $amount, $feesDeducted)->result();
+        $txid = $bitcoind->sendToAddress($this->address, $this->amount, $this->feesDeducted)->result();
+
+        $model = new Transaction;
+
+        $model->txid = $txid;
+        $model->confirmed = false;
+        $model->amount = $amount;
+
+        $model->save();
+        return $model->id;
     }
 }
