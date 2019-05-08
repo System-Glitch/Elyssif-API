@@ -17,7 +17,7 @@ use App\Events\TransactionNotification;
  *
  */
 
-class SendTransactions {
+class SendTransaction {
 
 	protected $address;
 	protected $amount;
@@ -51,7 +51,7 @@ class SendTransactions {
 
         $model->txid = $txid;
         $model->confirmed = false;
-        $model->amount = $amount;
+        $model->amount = $this->amount;
 
         $model->save();
         return $model->id;
