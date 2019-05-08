@@ -76,8 +76,7 @@ class FileController extends Controller
         }
         return response()->json([
             'id' => $file->id,
-            'public_key' => $file->public_key,
-            'elyssif_addr' => $file->elyssif_addr
+            'public_key' => $file->public_key
         ], Response::HTTP_CREATED);
     }
 
