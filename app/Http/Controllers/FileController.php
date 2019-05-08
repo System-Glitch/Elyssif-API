@@ -69,11 +69,15 @@ class FileController extends Controller
             $inputs['public_key'] = $keyPair->getPublic(false,'hex');
             $inputs['private_key'] = $keyPair->getPrivate('hex');
 
+            $bitcoind = bitcoind();
+            $inputs['elyssif_addr'] = $bitcoind->getNewAddress()->result();
+
             $file = $this->fileRepository->store($inputs);
         }
         return response()->json([
             'id' => $file->id,
-            'public_key' => $file->public_key
+            'public_key' => $file->public_key,
+            'elyssif_addr' => $file->elyssif_addr
         ], Response::HTTP_CREATED);
     }
 
