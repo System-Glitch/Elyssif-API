@@ -47,13 +47,6 @@ class SendTransaction {
         //Elyssif Wallet must be unlocked for this to work
         $txid = $bitcoind->sendToAddress($this->address, $this->amount, $this->feesDeducted)->result();
 
-        $model = new Transaction;
-
-        $model->txid = $txid;
-        $model->confirmed = false;
-        $model->amount = $this->amount;
-
-        $model->save();
-        return $model->id;
+        return $txid;
     }
 }
