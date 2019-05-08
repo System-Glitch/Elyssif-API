@@ -108,7 +108,7 @@ class FileRepository extends ResourceRepository
                            ->where('name', $name)
                            ->where('sender_id', $senderId)
                            ->whereNull('ciphered_at')
-                           ->select('id', 'public_key', 'elyssif_addr')->first();
+                           ->select('id', 'public_key')->first();
     }
 
     /**
