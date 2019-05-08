@@ -14,7 +14,8 @@ class File extends Model
      */
     protected $fillable = [
         'name', 'ciphered_at', 'deciphered_at', 'hash', 'hash_ciphered', 
-        'public_key', 'private_key', 'price', 'sender_id', 'recipient_id'
+        'public_key', 'private_key', 'price', 'sender_id', 'recipient_id',
+        'elyssif_addr'
     ];
 
     /**
@@ -23,7 +24,7 @@ class File extends Model
      * @var array
      */
     protected $hidden = [
-        'public_key', 'private_key', 'hash', 'hash_ciphered'
+        'public_key', 'private_key', 'hash', 'hash_ciphered', 'elyssif_addr'
     ];
 
     /**
