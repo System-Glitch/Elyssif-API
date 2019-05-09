@@ -120,8 +120,8 @@ class FileRepository extends ResourceRepository
     public function getPaymentState(int $fileId)
     {
         $state = [];
-        $state['pending'] = Transaction::where('confirmed', 1)->where('file_id', $fileId)->sum('amount');
-        $state['confirmed'] = Transaction::where('confirmed', 0)->where('file_id', $fileId)->sum('amount');
+        $state['pending'] = Transaction::where('confirmed', 0)->where('file_id', $fileId)->sum('amount');
+        $state['confirmed'] = Transaction::where('confirmed', 1)->where('file_id', $fileId)->sum('amount');
         return $state;
     }
 
