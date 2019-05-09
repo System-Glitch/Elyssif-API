@@ -22,6 +22,17 @@ class FileRepository extends ResourceRepository
     }
 
     /**
+     * Get a file by its bitcoin address.
+     * @param string  $address the bitcoin address for the file
+     * @param array|mixed  $columns the columns to select with optional alias, defaults to '*'
+     * @return \App\Models\File
+     */
+    public function getByAddress(string $address, array $columns = ['*'])
+    {
+        return $this->model->where('address', $address)->select($columns)->first(); // TODO needs address field
+    }
+
+    /**
      * Get a paginate of the given user's sent files.
      * @param User $user
      * @param string $search
