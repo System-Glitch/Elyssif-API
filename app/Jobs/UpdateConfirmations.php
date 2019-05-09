@@ -52,7 +52,7 @@ class UpdateConfirmations implements ShouldQueue
         $chunks = $txids->chunk(self::CHUNK_SIZE);
 
         foreach($chunks as $chunk) {
-            $updated = Transaction::whereNotIn('txid', $chunk)->where('confirmed', 0)->select('id, file_id')->get();
+            $updated = Transaction::whereNotIn('txid', $chunk)->where('confirmed', 0)->select('id', 'file_id')->get();
 
             foreach($updated as $tx) {
                 event(new TransactionNotification($tx->file_id));
