@@ -42,11 +42,8 @@ class SendTransaction {
      */
     public function handle()
     {
-        $bitcoind = bitcoind();
+        $txid = bitcoind()->sendToAddress($this->address, $this->amount, $this->feesDeducted)->result();
 
-        //Elyssif Wallet must be unlocked for this to work
-        $txid = $bitcoind->sendToAddress($this->address, $this->amount, $this->feesDeducted)->result();
-
-        return $txid;
+        // Ajouter recherche de la tx dans le réseau pour validation
     }
 }
