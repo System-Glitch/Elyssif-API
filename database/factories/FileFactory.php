@@ -27,7 +27,7 @@ $factory->define(App\Models\File::class, function (Faker $faker) {
         'hash_ciphered' => $faker->unique()->sha256,
         'public_key' => $faker->unique()->sha256,
         'private_key' => $faker->unique()->sha256,
-        'elyssif_addr' => $faker->unique()->sha256,
+        'address' => $faker->unique()->sha256,
         'price' => $faker->boolean ? 0 : $faker->randomFloat(8, 0.00001, 2),
     ];
 });

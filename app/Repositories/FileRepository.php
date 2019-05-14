@@ -89,7 +89,7 @@ class FileRepository extends ResourceRepository
     {
         return $user->receivedFiles()
                     ->where('hash_ciphered', $cipheredHash)
-                    ->select('id', 'private_key', 'name', 'sender_id', 'elyssif_addr')
+                    ->select('id', 'private_key', 'name', 'sender_id', 'address')
                     ->with('sender:id,name,email')
                     ->first();
     }
@@ -144,7 +144,7 @@ class FileRepository extends ResourceRepository
         if(isset($inputs['price'])) $model->price = $inputs['price'];
         $model->sender_id = $inputs['sender_id'];
         $model->recipient_id = $inputs['recipient_id'];
-        $model->elyssif_addr = $inputs['elyssif_addr'];
+        $model->elyssif_addr = $inputs['address'];
 
         $model->save();
         return $model->id;

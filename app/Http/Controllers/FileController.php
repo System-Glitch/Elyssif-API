@@ -70,7 +70,7 @@ class FileController extends Controller
             $inputs['private_key'] = $keyPair->getPrivate('hex');
 
             $bitcoind = bitcoind();
-            $inputs['elyssif_addr'] = $bitcoind->getNewAddress()->result();
+            $inputs['address'] = $bitcoind->getNewAddress()->result();
 
             $file = $this->fileRepository->store($inputs);
         }
@@ -160,7 +160,7 @@ class FileController extends Controller
         $file = $this->fileRepository->getFileForFetch($request->user(), $request->input('ciphered_hash'));
 
         if($file != null) {
-            $data = ['private_key','elyssif_addr'];
+            $data = ['private_key','address'];
             return $file->makeVisible($data)->toArray();
         } else {
             return new Response('', Response::HTTP_NOT_FOUND);
