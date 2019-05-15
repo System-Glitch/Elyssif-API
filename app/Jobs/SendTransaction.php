@@ -19,8 +19,25 @@ use App\Events\TransactionNotification;
 
 class SendTransaction {
 
+/**
+ * @var string
+ */
 	protected $address;
+
+/**
+ * @var double
+ */
 	protected $amount;
+
+/**
+ * If true, the transactional fees are deducted from the
+ * amount sent.
+ * If false, the fees are added to the amount
+ * sent, making the transactional cost to be
+ * equal to 'amount + fees'.
+ *
+ * @var boolean
+ */
 	protected $feesDeducted;
 
 	/**
@@ -42,7 +59,7 @@ class SendTransaction {
      */
     public function handle()
     {
-        $txid = bitcoind()->sendToAddress($this->address, $this->amount, $this->feesDeducted)->result();
+        $txid = bitcoind()->sendToAddress($this->address, $this->amount, null, null, $this->feesDeducted)->result();
 
         // Ajouter recherche de la tx dans le réseau pour validation
     }
