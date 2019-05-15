@@ -14,28 +14,28 @@ use App\Events\TransactionNotification;
 
 class SendTransaction {
 
-/**
- * @var string
- */
-	protected $address;
+    /**
+     * @var string
+     */
+    protected $address;
 
-/**
- * @var double
- */
-	protected $amount;
+    /**
+     * @var double
+     */
+    protected $amount;
 
-/**
- * If true, the transactional fees are deducted from the
- * amount sent.
- * If false, the fees are added to the amount
- * sent, making the transactional cost to be
- * equal to 'amount + fees'.
- *
- * @var boolean
- */
-	protected $feesDeducted;
+    /**
+     * If true, the transactional fees are deducted from the
+     * amount sent.
+     * If false, the fees are added to the amount
+     * sent, making the transactional cost to be
+     * equal to 'amount + fees'.
+     *
+     * @var boolean
+     */
+    protected $feesDeducted;
 
-	/**
+    /**
      * Create a new job instance.
      *
      * @return void
