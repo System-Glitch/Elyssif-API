@@ -89,7 +89,7 @@ class FileRepository extends ResourceRepository
     {
         return $user->receivedFiles()
                     ->where('hash_ciphered', $cipheredHash)
-                    ->select('id', 'private_key', 'name', 'sender_id', 'address')
+                    ->select('id', 'private_key', 'name', 'sender_id')
                     ->with('sender:id,name,email')
                     ->first();
     }
@@ -97,7 +97,7 @@ class FileRepository extends ResourceRepository
     /**
      * Find an unencrypted file (ciphered_at is null) by
      * its hash and name.
-     * Only the id, the public key and the address columns are selected.
+     * Only the id and the public key columns are selected.
      * @param int  senderId
      * @param string  $name
      * @param string  $hash
