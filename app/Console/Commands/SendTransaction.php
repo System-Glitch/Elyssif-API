@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\SendToAddress;
 use Illuminate\Console\Command;
 
 class SendTransaction extends Command
@@ -11,7 +12,7 @@ class SendTransaction extends Command
      *
      * @var string
      */
-    protected $signature = 'send-transaction {address} {amount} {--feesDeducted}';
+    protected $signature = 'send-transaction {address} {amount} {feesDeducted}';
 
     /**
      * The console command description.
@@ -37,10 +38,6 @@ class SendTransaction extends Command
      */
     public function handle()
     {
-        if (!$this->confirmToProceed()) {
-            return;
-        }
-
-        dispatch(new SendTransaction($this->argument('address'), $this->argument('amount'), $this->argument('feesDeducted')));
+        dispatch(new SendToAddress($this->argument('address'), $this->argument('amount'), $this->argument('feesDeducted')));
     }
 }
