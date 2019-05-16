@@ -89,7 +89,7 @@ class FileRepository extends ResourceRepository
     {
         return $user->receivedFiles()
                     ->where('hash_ciphered', $cipheredHash)
-                    ->select('id', 'private_key', 'name', 'sender_id')
+                    ->select('id', 'private_key', 'name', 'sender_id', 'price')
                     ->with('sender:id,name,email')
                     ->first();
     }
