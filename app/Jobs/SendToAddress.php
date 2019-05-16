@@ -12,7 +12,7 @@ use App\Events\TransactionNotification;
  *
  */
 
-class SendTransaction {
+class SendToAddress {
 
     /**
      * @var string
@@ -20,7 +20,7 @@ class SendTransaction {
     protected $address;
 
     /**
-     * @var double
+     * @var string
      */
     protected $amount;
 
@@ -40,11 +40,19 @@ class SendTransaction {
      *
      * @return void
      */
-    public function __construct(string $address, double $amount, boolean $feesDeducted)
+    public function __construct(string $address, string $amount, string $feesDeducted)
     {
         $this->address = $address;
         $this->amount = $amount;
-        $this->feesDeducted = $feesDeducted;
+        if($feesDeducted == "true" OR $feesDeducted == "TRUE"){
+            $this->feesDeducted = true;
+        }else{
+            /**
+             * False by default if nothing specified.
+             *
+             */
+            $this->feesDeducted = false;
+        }
     }
 
     /**
@@ -55,7 +63,5 @@ class SendTransaction {
     public function handle()
     {
         $txid = bitcoind()->sendToAddress($this->address, $this->amount, null, null, $this->feesDeducted)->result();
-
-        // Ajouter recherche de la tx dans le réseau pour validation
     }
 }
