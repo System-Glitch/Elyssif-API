@@ -4,9 +4,12 @@ namespace App\Console\Commands;
 
 use App\Jobs\SendToAddress;
 use Illuminate\Console\Command;
+use Illuminate\Console\ConfirmableTrait;
 
 class BitcoinSend extends Command
 {
+    use ConfirmableTrait;
+
     /**
      * The name and signature of the console command.
      *
@@ -38,18 +41,29 @@ class BitcoinSend extends Command
      */
     public function handle()
     {
-        //$feesDeducted = filter_var($this->argument('feesDeducted'), FILTER_VALIDATE_BOOLEAN);
-        //if($feesDeducted == null){
-        //    $this->output->writeln("Third argument given is no boolean (".$this->argument('feesDeducted').")");
+        if (!$this->confirmToProceed()) {
+            return;
+        }
+
+        /**
+         *
+         * Kept for review, will be removed soon.
+         * filter_var can't be used alone, returns null for every false entry.
+         *
+         */
+        //$feesDeducted = filter_var($this->argument('feesDeducted'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+        //if($feesDeducted == NULL) {
+        //    $this->output->writeln("Third argument given must be boolean ('".$this->argument('feesDeducted')."' becomes '".$feesDeducted."')");
+        //} else {
+        //    dispatch(new SendToAddress($this->argument('address'), $this->argument('amount'), $feesDeducted));
         //}
-        //dispatch(new SendToAddress($this->argument('address'), $this->argument('amount'), $feesDeducted));
 
         if(strtolower($this->argument('feesDeducted')) == "true" || strtolower($this->argument('feesDeducted')) == "false")
         {
             $feesDeducted = filter_var($this->argument('feesDeducted'), FILTER_VALIDATE_BOOLEAN);
             dispatch(new SendToAddress($this->argument('address'), $this->argument('amount'), $feesDeducted));
         } else {
-            $this->output->writeln("Third argument given is no boolean (".$this->argument('feesDeducted').")");
+            $this->output->writeln("Third argument given must be boolean (".$this->argument('feesDeducted').")");
             return;
         }
     }

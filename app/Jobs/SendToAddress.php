@@ -4,7 +4,6 @@ namespace App\Jobs;
 
 use App\Models\Transaction;
 use App\Events\TransactionNotification;
-use Illuminate\Console\ConfirmableTrait;
 
 /**
  * Create transactions.
@@ -14,8 +13,6 @@ use Illuminate\Console\ConfirmableTrait;
  */
 
 class SendToAddress {
-
-    use ConfirmableTrait;
 
     /**
      * @var string
@@ -43,7 +40,7 @@ class SendToAddress {
      *
      * @return void
      */
-    public function __construct(string $address, string $amount, boolean $feesDeducted)
+    public function __construct(string $address, string $amount, bool $feesDeducted)
     {
         $this->address = $address;
         $this->amount = $amount;
@@ -57,10 +54,6 @@ class SendToAddress {
      */
     public function handle()
     {
-        if (!$this->confirmToProceed()) {
-            return;
-        }
-        
         $txid = bitcoind()->sendToAddress($this->address, $this->amount, null, null, $this->feesDeducted)->result();
     }
 }
