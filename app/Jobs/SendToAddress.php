@@ -40,19 +40,11 @@ class SendToAddress {
      *
      * @return void
      */
-    public function __construct(string $address, string $amount, string $feesDeducted)
+    public function __construct(string $address, string $amount, boolean $feesDeducted)
     {
         $this->address = $address;
         $this->amount = $amount;
-        if($feesDeducted == "true" OR $feesDeducted == "TRUE"){
-            $this->feesDeducted = true;
-        }else{
-            /**
-             * False by default if nothing specified.
-             *
-             */
-            $this->feesDeducted = false;
-        }
+        $this->feesDeducted = $feesDeducted;
     }
 
     /**
