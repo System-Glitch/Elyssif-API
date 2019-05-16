@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Models\Transaction;
 use App\Events\TransactionNotification;
+use Illuminate\Console\ConfirmableTrait;
 
 /**
  * Create transactions.
@@ -14,15 +15,17 @@ use App\Events\TransactionNotification;
 
 class SendToAddress {
 
-    /**
-     * @var string
-     */
-    protected $address;
+    use ConfirmableTrait;
 
     /**
      * @var string
      */
-    protected $amount;
+    private $address;
+
+    /**
+     * @var string
+     */
+    private $amount;
 
     /**
      * If true, the transactional fees are deducted from the
@@ -33,7 +36,7 @@ class SendToAddress {
      *
      * @var boolean
      */
-    protected $feesDeducted;
+    private $feesDeducted;
 
     /**
      * Create a new job instance.
@@ -54,6 +57,10 @@ class SendToAddress {
      */
     public function handle()
     {
+        if (!$this->confirmToProceed()) {
+            return;
+        }
+        
         $txid = bitcoind()->sendToAddress($this->address, $this->amount, null, null, $this->feesDeducted)->result();
     }
 }
