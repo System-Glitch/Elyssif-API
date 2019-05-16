@@ -14,3 +14,7 @@
 Broadcast::channel('file.{file}', function ($user, \App\Models\File $file) {
     return $user->id == $file->recipient_id;
 });
+
+Broadcast::channel('user.{userId}', function ($user, $userId) {
+    return $user->id == $userId;
+});

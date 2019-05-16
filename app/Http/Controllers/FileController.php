@@ -12,6 +12,7 @@ use App\Models\File;
 use App\Repositories\FileRepository;
 use Illuminate\Http\Response;
 use Elliptic\EC;
+use App\Events\UserNotification;
 
 class FileController extends Controller
 {
@@ -74,6 +75,7 @@ class FileController extends Controller
 
             $file = $this->fileRepository->store($inputs);
         }
+
         return response()->json([
             'id' => $file->id,
             'public_key' => $file->public_key
@@ -105,12 +107,14 @@ class FileController extends Controller
         if($request->user()->id != $file->sender_id || !empty($file->ciphered_at)) {
             return new Response('', Response::HTTP_FORBIDDEN);
         }
-        
+
         $this->fileRepository->update($file, [
             'ciphered_at' => now(),
             'hash_ciphered' => $request->input('ciphered_hash')
         ]);
-        
+
+        event(new UserNotification($file->recipient_id, '%file-received', $file->name));
+
         return new Response('', Response::HTTP_NO_CONTENT);
     }
 
