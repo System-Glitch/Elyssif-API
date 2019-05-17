@@ -29,7 +29,7 @@ class FileController extends Controller
     {
         $this->fileRepository = $fileRepository;
     }
-    
+
     /**
      * Display a listing of the files sent by the current user.
      *
@@ -39,7 +39,7 @@ class FileController extends Controller
     {
         return $this->fileRepository->getSentFilesPaginate($request->user(), $request->input('search'));
     }
-    
+
     /**
      * Display a listing of the files sent to the current user.
      *
@@ -85,17 +85,13 @@ class FileController extends Controller
     /**
      * Generate Keys using the "secp256k1" Elliptic Curve method
      *
-     * @param  No params
-     * @return 
+     * @return mixed
      */
-
-    public function generateKeys(){
-        $ec = new EC('secp256k1');
-
-        return $ec->genKeyPair();
+    public function generateKeys()
+    {
+        return (new EC('secp256k1'))->genKeyPair();
     }
 
-    
     /**
      * Set the ciphered hash of the specified resource
      *
@@ -152,7 +148,7 @@ class FileController extends Controller
         
         return new Response('', Response::HTTP_NO_CONTENT);
     }
-    
+
     /**
      * Fetch a file by its ciphered hash.
      *
@@ -169,7 +165,7 @@ class FileController extends Controller
             return new Response('', Response::HTTP_NOT_FOUND);
         }
     }
-    
+
     /**
      * Check a file by comparing ciphered and deciphered hashes.
      *
