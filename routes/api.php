@@ -31,6 +31,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('files/', 'FileController@store')->name('files.store');
     Route::put('files/{file}', 'FileController@update')->name('files.update');
     Route::get('files/{file}', 'FileController@show')->name('files.show');
+    Route::get('files/{file}/paymentstate', 'FileController@paymentState')->name('files.paymentstate');
     Route::delete('files/{file}', 'FileController@destroy')->name('files.destroy');
     Route::put('files/{file}/cipher', 'FileController@cipher')->name('files.cipher');
 });

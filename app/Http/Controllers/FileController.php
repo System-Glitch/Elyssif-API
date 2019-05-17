@@ -126,6 +126,17 @@ class FileController extends Controller
     }
 
     /**
+     * Display the payment state of the specified file.
+     *
+     * @param \App\Models\File  $file
+     * @return array
+     */
+    public function paymentState(File $file)
+    {
+        return $file->recipient_id == request()->user()->id ? $this->fileRepository->getPaymentState($file->id) : new Response('', Response::HTTP_FORBIDDEN);
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\Files\FileUpdateRequest  $request
