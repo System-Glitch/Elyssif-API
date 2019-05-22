@@ -1,10 +1,9 @@
 <?php
 namespace App\Console\Commands;
 
+use App\Events\TransactionNotification;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
-use Illuminate\Support\Facades\Log;
-use App\Events\TransactionNotification;
 
 class UpdateFileState extends Command
 {
