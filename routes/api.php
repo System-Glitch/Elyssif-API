@@ -29,7 +29,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('files/fetch', 'FileController@fetch')->name('files.fetch');
     Route::get('files/check', 'FileController@check')->name('files.check');
     Route::post('files/', 'FileController@store')->name('files.store');
-    Route::put('files/{file}', 'FileController@update')->name('files.update');
+    //Route::put('files/{file}', 'FileController@update')->name('files.update');
     Route::get('files/{file}', 'FileController@show')->name('files.show');
     Route::get('files/{file}/paymentstate', 'FileController@paymentState')->name('files.paymentstate');
     Route::delete('files/{file}', 'FileController@destroy')->name('files.destroy');

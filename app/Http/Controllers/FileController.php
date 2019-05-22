@@ -70,8 +70,9 @@ class FileController extends Controller
             $inputs['public_key'] = $keyPair->getPublic(false,'hex');
             $inputs['private_key'] = $keyPair->getPrivate('hex');
 
-            $bitcoind = bitcoind();
-            $inputs['elyssif_addr'] = $bitcoind->getNewAddress()->result();
+            if($request->has('price') && $request->input('price') > 0) {
+                $inputs['address'] = bitcoind()->getNewAddress()->result();
+            }
 
             $file = $this->fileRepository->store($inputs);
         }
@@ -138,6 +139,7 @@ class FileController extends Controller
 
     /**
      * Update the specified resource in storage.
+     * CURRENTLY DISABLED
      *
      * @param  \App\Http\Requests\Files\FileUpdateRequest  $request
      * @param  \App\Models\File  $file
@@ -171,7 +173,7 @@ class FileController extends Controller
         $file = $this->fileRepository->getFileForFetch($request->user(), $request->input('ciphered_hash'));
 
         if($file != null) {
-            return $file->makeVisible('private_key')->toArray();
+            return $file->makeVisible(['private_key','address'])->toArray();
         } else {
             return new Response('', Response::HTTP_NOT_FOUND);
         }
