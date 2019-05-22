@@ -2,10 +2,10 @@
 
 namespace App\Jobs;
 
+use App\Events\TransactionNotification;
+use App\Repositories\FileRepository;
 use App\Repositories\TransactionRepository;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Support\Facades\Log;
-use App\Repositories\FileRepository;
 
 class CreateTransaction
 {
@@ -35,11 +35,9 @@ class CreateTransaction
      */
     public function handle(TransactionRepository $txRepository, FileRepository $fileRepository)
     {
-        // TODO create transaction if match
         if(!$txRepository->existsByTxId($this->txid)) {
 
             $tx = bitcoind()->getTransaction($this->txid);
-            Log::info($tx); // TODO remove debug
             $details = $tx->get('details');
             $addresses = [];
 
@@ -47,7 +45,7 @@ class CreateTransaction
                 $address = $vout['address'];
 
                 if(!array_key_exists($address, $addresses)) {
-                    $file = $fileRepository->getByAddress($address, ['id', 'address']); // TODO needs address field
+                    $file = $fileRepository->getByAddress($address, ['id', 'address']);
                     if($file != null) {
                         $addresses[$address] = [];
                         $addresses[$address]['file'] = $file;
@@ -61,12 +59,13 @@ class CreateTransaction
             }
 
             foreach ($addresses as $address => $vout) {
-                Log::info($address.': '.$vout['amount']);
-                $fileRepository->store([
+                $txRepository->store([
+                    'txid' => $this->txid,
                     'file_id' => $vout['file']->id,
                     'confirmed' => 0,
                     'amount' => $vout['amount']
                 ]);
+                event(new TransactionNotification($vout['file']->id, $this->txid));
             }
         }
     }

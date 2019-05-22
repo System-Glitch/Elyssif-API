@@ -29,7 +29,7 @@ class FileRepository extends ResourceRepository
      */
     public function getByAddress(string $address, array $columns = ['*'])
     {
-        return $this->model->where('address', $address)->select($columns)->first(); // TODO needs address field
+        return $this->model->where('address', $address)->select($columns)->first();
     }
 
     /**

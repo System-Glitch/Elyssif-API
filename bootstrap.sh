@@ -69,6 +69,7 @@ setup_bitcoin()
 	cat <<EOF > /etc/bitcoin/bitcoin.conf
 regtest=1
 bind=127.0.0.1:18445
+walletnotify=php /vagrant/artisan bitcoin:transaction %s
 blocknotify=php /vagrant/artisan bitcoin:confirmations
 EOF
 

@@ -20,14 +20,14 @@ class TransactionRepository extends ResourceRepository
     }
 
     /**
-     * Get a transaction by its unique txid.
+     * Get transactions by txid.
      * @param string  $txid the txid of the transaction 
      * @param array|mixed  $columns the columns to select with optional alias, defaults to '*'
-     * @return \App\Models\Transaction
+     * @return array
      */
     public function getByTxId(string $txid, array $columns = ['*'])
     {
-        return $this->model->where('txid', $txid)->select($columns)->first();
+        return $this->model->where('txid', $txid)->select($columns)->get();
     }
     
     /**
@@ -49,6 +49,7 @@ class TransactionRepository extends ResourceRepository
      */
     protected function save(Model $model, Array $inputs)
     {
+        $model->txid = $inputs['txid'];
         $model->file_id = $inputs['file_id'];
         if(isset($inputs['confirmed'])) $model->confirmed = $inputs['confirmed'];
         $model->amount = $inputs['amount'];
