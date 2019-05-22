@@ -45,26 +45,19 @@ class BitcoinSend extends Command
             return;
         }
 
-        /**
-         *
-         * Kept for review, will be removed soon.
-         * filter_var can't be used alone, returns null for every false entry.
-         *
-         */
-        //$feesDeducted = filter_var($this->argument('feesDeducted'), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-        //if($feesDeducted == NULL) {
-        //    $this->output->writeln("Third argument given must be boolean ('".$this->argument('feesDeducted')."' becomes '".$feesDeducted."')");
-        //} else {
-        //    dispatch(new SendToAddress($this->argument('address'), $this->argument('amount'), $feesDeducted));
-        //}
-
-        if(strtolower($this->argument('feesDeducted')) == "true" || strtolower($this->argument('feesDeducted')) == "false")
-        {
-            $feesDeducted = filter_var($this->argument('feesDeducted'), FILTER_VALIDATE_BOOLEAN);
-            dispatch(new SendToAddress($this->argument('address'), $this->argument('amount'), $feesDeducted));
+        if(strtolower($this->argument('feesDeducted')) == "true" || strtolower($this->argument('feesDeducted')) == "false") {
+            $feesDeducted = strtolower($this->argument('feesDeducted')) == "true";
         } else {
-            $this->output->writeln("Third argument given must be boolean (".$this->argument('feesDeducted').")");
+            $this->output->error("Third argument must be a boolean (".$this->argument('feesDeducted').")");
             return;
         }
+
+        $amount = floatval($this->argument('amount'));
+        if(!$amount) {
+            $this->output->error("Second argument must be a float and be superior to zero (".$this->argument('amount').")");
+            return;
+        }
+
+        dispatch(new SendToAddress($this->argument('address'), $this->argument('amount'), $feesDeducted));
     }
 }

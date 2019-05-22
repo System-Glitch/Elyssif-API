@@ -2,16 +2,15 @@
 
 namespace App\Jobs;
 
-use App\Models\Transaction;
-use App\Events\TransactionNotification;
+use Illuminate\Support\Facades\Log;
 
 /**
- * Create transactions.
+ * Create and broadcast transactions from
+ * Elyssif wallet.
  * (only Elyssif -> User)
  * @author Jérémy SVENSSON
  *
  */
-
 class SendToAddress {
 
     /**
@@ -20,7 +19,7 @@ class SendToAddress {
     private $address;
 
     /**
-     * @var string
+     * @var float
      */
     private $amount;
 
@@ -38,9 +37,12 @@ class SendToAddress {
     /**
      * Create a new job instance.
      *
+     * @param  string $address
+     * @param  float  $amount
+     * @param  bool   $feesDeducted
      * @return void
      */
-    public function __construct(string $address, string $amount, bool $feesDeducted)
+    public function __construct(string $address, float $amount, bool $feesDeducted)
     {
         $this->address = $address;
         $this->amount = $amount;
@@ -55,5 +57,9 @@ class SendToAddress {
     public function handle()
     {
         $txid = bitcoind()->sendToAddress($this->address, $this->amount, null, null, $this->feesDeducted)->result();
+
+        if(app()->isLocal()) {
+            Log::info('New tx: '.$txid.' ('.$this->amount.' BTC) to '.$this->address);
+        }
     }
 }
