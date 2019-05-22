@@ -3,6 +3,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
+use Illuminate\Support\Facades\Log;
 use App\Events\TransactionNotification;
 
 class UpdateFileState extends Command
@@ -47,11 +48,11 @@ class UpdateFileState extends Command
 
         $notif = new TransactionNotification($this->argument('fileId'));
 
-        if ($this->hasArgument('pending')) {
+        if (!empty($this->argument('pending'))) {
             $notif->pending = (double) $this->argument('pending');
         }
 
-        if ($this->hasArgument('confirmed')) {
+        if (!empty($this->argument('confirmed'))) {
             $notif->confirmed = (double) $this->argument('confirmed');
         }
 
