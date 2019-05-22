@@ -128,6 +128,7 @@ class FileController extends Controller
 
     /**
      * Update the specified resource in storage.
+     * CURRENTLY DISABLED
      *
      * @param  \App\Http\Requests\Files\FileUpdateRequest  $request
      * @param  \App\Models\File  $file
