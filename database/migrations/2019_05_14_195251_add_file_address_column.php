@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use App\Models\File;
 
 class AddFileAddressColumn extends Migration
 {
@@ -14,7 +15,12 @@ class AddFileAddressColumn extends Migration
     public function up()
     {
         Schema::table('files', function (Blueprint $table) {
-            $table->string('address');
+            $table->string('address')->nullable();
+        });
+
+        // Generate an address for all paid files
+        File::where('price', '>', 0)->get()->each(function($file) {
+            $file->update(['address' => bitcoind()->getNewAddress()->result()]);
         });
     }
     /**

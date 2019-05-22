@@ -144,7 +144,7 @@ class FileRepository extends ResourceRepository
         if(isset($inputs['price'])) $model->price = $inputs['price'];
         $model->sender_id = $inputs['sender_id'];
         $model->recipient_id = $inputs['recipient_id'];
-        $model->address = $inputs['address'];
+        if(isset($inputs['address'])) $model->address = $inputs['address'];
 
         $model->save();
         return $model->id;

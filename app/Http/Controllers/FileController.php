@@ -69,8 +69,9 @@ class FileController extends Controller
             $inputs['public_key'] = $keyPair->getPublic(false,'hex');
             $inputs['private_key'] = $keyPair->getPrivate('hex');
 
-            $bitcoind = bitcoind();
-            $inputs['address'] = $bitcoind->getNewAddress()->result();
+            if($request->has('price') && $request->input('price') > 0) {
+                $inputs['address'] = bitcoind()->getNewAddress()->result();
+            }
 
             $file = $this->fileRepository->store($inputs);
         }
