@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Models\File;
 use App\Models\User;
-use App\Models\Transaction;
 use Illuminate\Database\Eloquent\Model;
 
 class FileRepository extends ResourceRepository
@@ -125,14 +124,22 @@ class FileRepository extends ResourceRepository
     /**
      * Get the payment state of the given file.
      * (Amount awaiting confirmation and confirmed amount)
-     * @param int $fileId
+     * @param int|\App\Models\File $file
      * @return array
      */
-    public function getPaymentState(int $fileId)
+    public function getPaymentState($file)
     {
         $state = [];
-        $state['pending'] = Transaction::where('confirmed', 0)->where('file_id', $fileId)->sum('amount');
-        $state['confirmed'] = Transaction::where('confirmed', 1)->where('file_id', $fileId)->sum('amount');
+        $bitcoind = bitcoind();
+
+        if(!($file instanceof File)) {
+            $file = $this->getById($file, ['id','address']);
+        }
+
+        $total = $bitcoind->request('getReceivedByAddress', $file->address, 0)->result();
+        $state['confirmed'] = $bitcoind->getReceivedByAddress($file->address, intval(env('MIN_CONFIRMATIONS')))->result();
+        $state[ 'pending' ] = $total - $state['confirmed'];
+
         return $state;
     }
 

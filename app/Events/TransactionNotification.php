@@ -25,12 +25,6 @@ class TransactionNotification implements ShouldBroadcast
     private $fileId;
 
     /**
-     * The txid of the updated tx.
-     * @var string
-     */
-    public $txid;
-
-    /**
      * The unconfirmed amount for the file related to the tx.
      * @var double
      */
@@ -47,13 +41,11 @@ class TransactionNotification implements ShouldBroadcast
      * automatically fetched using the given file id.
      *
      * @param int    $fileId  the id of the file related to the tx.
-     * @param string $txid  the txid of the updated transaction
      * @return void
      */
-    public function __construct(int $fileId, string $txid = null)
+    public function __construct(int $fileId)
     {
-        $this->fileId =  $fileId;
-        $this->txid   =  $txid;
+        $this->fileId = $fileId;
         
         $repo = new FileRepository(new File());
         $state = $repo->getPaymentState($fileId);
