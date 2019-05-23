@@ -229,7 +229,15 @@ class FileController extends Controller
         if(request()->user()->id != $file->sender_id) {
             return new Response('', Response::HTTP_FORBIDDEN);
         }
-        
+
+        if($file->address) {
+            $paymentState = $this->fileRepository->getPaymentState($file);
+
+            if($paymentState['confirmed'] > 0 || $paymentState['pending'] > 0) {
+                return new Response('file-paid', Response::HTTP_FORBIDDEN);
+            }
+        }
+
         $this->fileRepository->destroy($file);
         return new Response('', Response::HTTP_NO_CONTENT);
     }
