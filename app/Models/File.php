@@ -47,14 +47,4 @@ class File extends Model
         return $this->belongsTo('App\Models\User', 'recipient_id');
     }
 
-    /**
-     * Get the transactions related to this file.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function transactions()
-    {
-        return $this->hasMany('App\Models\Transaction', 'file_id');
-    }
-
 }

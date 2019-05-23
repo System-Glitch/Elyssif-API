@@ -69,6 +69,7 @@ setup_bitcoin()
 	cat <<EOF > /etc/bitcoin/bitcoin.conf
 regtest=1
 bind=127.0.0.1:18445
+walletnotify=php /vagrant/artisan bitcoin:transaction %s
 blocknotify=php /vagrant/artisan bitcoin:confirmations
 EOF
 
@@ -178,6 +179,10 @@ MAIL_ENCRYPTION=tls
 PUSHER_APP_ID=
 PUSHER_APP_KEY=
 PUSHER_APP_SECRET=
+
+ECHO_HOST=http://127.0.0.1:6001
+ECHO_APP=elyssif
+ECHO_KEY=818c8c8c73e1c81e1fe20b4eba4f01c7
 
 MIN_CONFIRMATIONS=3
 BITCOIND_HOST=localhost:18443

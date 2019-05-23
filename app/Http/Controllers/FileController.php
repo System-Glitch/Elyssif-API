@@ -172,11 +172,33 @@ class FileController extends Controller
     {
         $file = $this->fileRepository->getFileForFetch($request->user(), $request->input('ciphered_hash'));
 
-        if($file != null) {
-            return $file->makeVisible(['private_key','address'])->toArray();
+        if ($file != null) {
+            return $file->makeVisible('address')->makeHidden('recipient_id')->toArray();
         } else {
             return new Response('', Response::HTTP_NOT_FOUND);
         }
+    }
+
+    /**
+     * Get the private key for the given file.
+     *
+     * @param File $file
+     * @return \Illuminate\Http\Response
+     */
+    public function key(File $file)
+    {
+        if(request()->user()->id != $file->recipient_id) {
+            return new Response('', Response::HTTP_FORBIDDEN);
+        }
+
+        if($file->price > 0) {
+            $paymentState = $this->fileRepository->getPaymentState($file);
+            if($paymentState['confirmed'] < $file->price) {
+                return new Response('', Response::HTTP_FORBIDDEN);
+            }
+        }
+
+        return response()->json($file->private_key);
     }
 
     /**
@@ -207,7 +229,15 @@ class FileController extends Controller
         if(request()->user()->id != $file->sender_id) {
             return new Response('', Response::HTTP_FORBIDDEN);
         }
-        
+
+        if($file->address) {
+            $paymentState = $this->fileRepository->getPaymentState($file);
+
+            if($paymentState['confirmed'] > 0 || $paymentState['pending'] > 0) {
+                return new Response('file-paid', Response::HTTP_FORBIDDEN);
+            }
+        }
+
         $this->fileRepository->destroy($file);
         return new Response('', Response::HTTP_NO_CONTENT);
     }

@@ -2,13 +2,15 @@
 
 namespace App\Jobs;
 
+use App\Events\TransactionNotification;
+use GuzzleHttp\Client;
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Models\Transaction;
-use App\Events\TransactionNotification;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Str;
+use Exception;
 
 /**
  * Check for confirmed transactions.
@@ -38,27 +40,21 @@ class UpdateConfirmations implements ShouldQueue
      */
     public function handle()
     {
-        $confirmations = env('MIN_CONFIRMATIONS', 3) - 1; // -1 to remove inclusion
-        $bitcoind = bitcoind();
-        $blockCount = $bitcoind->getBlockCount()->result();
-        $hash = $bitcoind->getBlockHash($blockCount - $confirmations)->result();
-        $unconfirmed = $bitcoind->listSinceBlock($hash)->result();
+        $client = new Client();
+        $res = $client->get(env('ECHO_HOST').'/apps/'.env('ECHO_APP').'/channels', ['query' =>  ['auth_key' => env('ECHO_KEY')]]);
+        if($res->getStatusCode() == 200) {
+            $channels = json_decode($res->getBody())->channels;
 
-        $txids = collect($unconfirmed['transactions'])->filter(function($tx, $key) {
-            // Filter negative amount (means it's a send transaction, not receive)
-            return $tx['amount'] > 0;
-        });
+            $fileChannels = collect($channels)->filter(function($ch, $key) {
+                return Str::startsWith($key, 'private-file.'); // Keep file channels only
+            });
 
-        $chunks = $txids->chunk(self::CHUNK_SIZE);
-
-        foreach($chunks as $chunk) {
-            $updated = Transaction::whereNotIn('txid', $chunk)->where('confirmed', 0)->select('id, file_id')->get();
-
-            foreach($updated as $tx) {
-                event(new TransactionNotification($tx->file_id));
+            foreach ($fileChannels as $key => $ch) {
+                if($ch->occupied && $ch->subscription_count > 0) {
+                    $fileId = Str::replaceFirst('private-file.', '', $key);
+                    event(new TransactionNotification($fileId));
+                }
             }
-
-            Transaction::whereNotIn('txid', $chunk)->update(['confirmed' => 1]);
-        }
+        } else throw new Exception('Laravel Echo channels info request returned '.$res->getStatusCode());
     }
 }
