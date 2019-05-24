@@ -27,7 +27,7 @@ class FileCreateRequest extends FormRequest
             'name' => 'required|string|min:3|max:40',
             'recipient_id' => 'required|integer|exists:users,id',
             'hash' => 'required|string|size:64',
-            'price' => 'nullable|numeric|min_decimal:0.00001'
+            'price' => 'nullable|numeric|min_decimal:'.minPrice()
         ];
     }
 }
