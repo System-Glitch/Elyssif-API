@@ -90,6 +90,7 @@ return [
     'least' => 'Il n\'y a pas assez de ce :attribute.',
     'after_datetime' => 'Le champ :attribute doit être une date postérieure au :date.',
     'password' => 'Mot de passe incorrect.',
+    'min_decimal' => 'La valeur de :attribute doit être supérieure ou égale à :min.'
 
     /*
     |--------------------------------------------------------------------------

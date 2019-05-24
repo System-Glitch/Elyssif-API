@@ -116,6 +116,7 @@ return [
     'url' => 'The :attribute format is invalid.',
     'uuid' => 'The :attribute must be a valid UUID.',
     'password' => 'Incorrect password.',
+    'min_decimal' => 'The :attribute must be at least :min.',
 
     /*
     |--------------------------------------------------------------------------
