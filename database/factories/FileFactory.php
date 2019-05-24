@@ -29,6 +29,6 @@ $factory->define(App\Models\File::class, function (Faker $faker) {
         'public_key' => $faker->unique()->sha256,
         'private_key' => $faker->unique()->sha256,
         'address' => $paid ? $faker->unique()->sha256 : null,
-        'price' => $paid ? $faker->randomFloat(8, 0.00001, 2) : 0,
+        'price' => $paid ? $faker->randomFloat(8, minPrice(), 2) : 0,
     ];
 });
