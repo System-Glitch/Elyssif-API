@@ -31,6 +31,7 @@ class UserRepository extends ResourceRepository
         $model->name = $inputs['name'];
         $model->email = $inputs['email'];
         if(isset($inputs['password'])) $model->password = $inputs['password'];
+        if(isset($inputs['address'])) $model->address = $inputs['address'];
 
         $model->save();
         return $model->id;

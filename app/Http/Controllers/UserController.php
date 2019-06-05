@@ -56,7 +56,7 @@ class UserController extends Controller
      */
     public function update(UserUpdateRequest $request, User $user)
     {
-        $data = $request->only('name', 'email');
+        $data = $request->only('name', 'email', 'address');
 
         if(empty($data['name'])) {
             unset($data['name']);

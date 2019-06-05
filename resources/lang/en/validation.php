@@ -117,6 +117,7 @@ return [
     'uuid' => 'The :attribute must be a valid UUID.',
     'password' => 'Incorrect password.',
     'min_decimal' => 'The :attribute must be at least :min.',
+    'bitcoin_address' => 'Invalid Bitcoin address.',
 
     /*
     |--------------------------------------------------------------------------
