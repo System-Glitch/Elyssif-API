@@ -43,7 +43,7 @@ class ApiRegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => $data['password'],
-            'address' => $data['address']
+            'address' => !empty($data['address']) ? $data['address'] : null
         ]);
     }
 
