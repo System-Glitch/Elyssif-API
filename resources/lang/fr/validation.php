@@ -92,6 +92,7 @@ return [
     'password' => 'Mot de passe incorrect.',
     'min_decimal' => 'La valeur de :attribute doit être supérieure ou égale à :min.',
     'bitcoin_address' => 'Adresse Bitcoin invalide.',
+    'has_bitcoin_address' => 'Vous devez avoir défini votre adresse Bitcoin.',
 
     /*
     |--------------------------------------------------------------------------

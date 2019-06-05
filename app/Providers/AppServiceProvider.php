@@ -48,6 +48,10 @@ class AppServiceProvider extends ServiceProvider
             }
         });
 
+        Validator::extend('has_bitcoin_address', function ($attribute, $value, $parameters, $validator) {
+            return !empty(request()->user()->address);
+        });
+
         Validator::replacer('min_decimal', function($message, $attribute, $rule, $parameters) {
             return str_replace(':min', $parameters[0], $message);
         });

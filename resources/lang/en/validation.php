@@ -118,6 +118,7 @@ return [
     'password' => 'Incorrect password.',
     'min_decimal' => 'The :attribute must be at least :min.',
     'bitcoin_address' => 'Invalid Bitcoin address.',
+    'has_bitcoin_address' => 'You must have set your Bitcoin address.',
 
     /*
     |--------------------------------------------------------------------------
