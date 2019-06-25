@@ -15,7 +15,9 @@ Elyssif is a user-friendly app that allows you to send sensitive or important fi
 * Composer
 * Supervisor
 * xdebug
+* Redis
 * Bitcoin Core (bitcoind) >= 0.18.0
+* Python3 (Optional)
 * [VirtualBox](https://www.virtualbox.org/) and [Vagrant](https://www.vagrantup.com/) (Optional but recommended)
 * [Postman](https://www.getpostman.com/) (Optional but recommended)
 
