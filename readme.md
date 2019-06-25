@@ -14,6 +14,8 @@ Elyssif is a user-friendly app that allows you to send sensitive or important fi
 * Apache 2 (or Nginx)
 * Composer
 * Supervisor
+* xdebug
+* Bitcoin Core (bitcoind) >= 0.18.0
 * [VirtualBox](https://www.virtualbox.org/) and [Vagrant](https://www.vagrantup.com/) (Optional but recommended)
 * [Postman](https://www.getpostman.com/) (Optional but recommended)
 
@@ -56,7 +58,40 @@ Password: vagrant
 6. Make sure the `www-data` user has write access to the `storage` and `bootstrap` directories.
 7. Copy `env.example` and change its content to match your local configuration.
 8. Configure your web server by creating a new virtual host for the project. The document root must be the project's root.
-9. Run the following commands (replacing the path with your path):
+9. Create the following files:
+- /etc/supervisor/conf.d/laravel-worker.conf
+```
+[program:laravel-worker]
+process_name=%(program_name)s_%(process_num)02d
+command=php /vagrant/artisan queue:work --sleep=3 --tries=3
+autostart=true
+autorestart=true
+user=www-data
+numprocs=1
+redirect_stderr=true
+stdout_logfile=/vagrant/storage/logs/worker.log
+```
+- /etc/supervisor/conf.d/laravel-echo.conf
+```
+[program:laravel-echo]
+directory=/var/www
+process_name=%(program_name)s_%(process_num)02d
+command=laravel-echo-server start
+autostart=true
+autorestart=true
+user=vagrant
+numprocs=1
+redirect_stderr=true
+stdout_logfile=/var/www/storage/logs/echo.log
+```
+10. Configure /etc/bitcoin/bitcoin.conf with the following entries:
+```
+regtest=1
+bind=127.0.0.1:18445
+walletnotify=php /path/to/project/artisan bitcoin:transaction %s
+blocknotify=php /path/to/project/artisan bitcoin:confirmations
+```
+11. Run the following commands (replacing the path with your path):
 ```
 composer install
 
@@ -68,9 +103,19 @@ php artisan db:seed
 
 php artisan passport:install
 
+cp laravel-echo-server.json.example laravel-echo-server.json
+
+# Generate rpc auth and append them to your .env file
+python3 /path/to/project/rpcauth.py laravel /etc/bitcoin/bitcoin.conf /path/to/project/.env
+
 supervisorctl reread
 supervisorctl update
 supervisorctl start laravel-worker:*
+supervisorctl start laravel-echo:*
+
+service bitcoind start
+# If you want to run bitcoind on startup
+# systemctl enable bitcoind
 
 line="* * * * * php /path/to/project/artisan schedule:run >> /dev/null 2>&1"
 (crontab -u www-data -l; echo "$line" ) | crontab -u www-data -
