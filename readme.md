@@ -125,4 +125,4 @@ line="* * * * * php /path/to/project/artisan schedule:run >> /dev/null 2>&1"
 
 ## Running the tests
 
-To run the automated tests, simply run : `php ./vendor/phpunit/phpunit/phpunit` when your current directory is the root of the project.
+To run the automated tests, simply run : `php ./vendor/phpunit/phpunit/phpunit` when your current directory is the root of the project. A code coverage report will be generated in the `report` folder.
