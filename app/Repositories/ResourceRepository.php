@@ -338,6 +338,7 @@ abstract class ResourceRepository
         $record = $this->getById($id, [$this->model->getKeyName()]);
         $this->destroy($record, $force);
     }
+
     /**
      * Delete a record
      *
@@ -371,10 +372,10 @@ abstract class ResourceRepository
     protected function escapeLike(string $value, string $char = '\\')
     {
         return str_replace(
-            [$char, '%', '_'],
-            [$char.$char, $char.'%', $char.'_'],
-            $value
-        );
+                [$char, '%', '_'],
+                [$char.$char, $char.'%', $char.'_'],
+                $value
+            );
     }
 
 }
