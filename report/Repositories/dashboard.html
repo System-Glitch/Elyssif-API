@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Dashboard for /vagrant/app/Repositories</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../.css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="../.css/nv.d3.min.css" rel="stylesheet" type="text/css">
+  <link href="../.css/style.css" rel="stylesheet" type="text/css">
+  <link href="../.css/custom.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <header>
+   <div class="container-fluid">
+    <div class="row">
+     <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+       <ol class="breadcrumb">
+         <li class="breadcrumb-item"><a href="../index.html">/vagrant/app</a></li>
+         <li class="breadcrumb-item"><a href="index.html">Repositories</a></li>
+         <li class="breadcrumb-item active">(Dashboard)</li>
+
+       </ol>
+      </nav>
+     </div>
+    </div>
+   </div>
+  </header>
+  <div class="container-fluid">
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Classes</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="classCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="classComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="FileRepository.php.html#9">App\Repositories\FileRepository</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserRepository.php.html#8">App\Repositories\UserRepository</a></td><td class="text-right">0%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="FileRepository.php.html#9">App\Repositories\FileRepository</a></td><td class="text-right">210</td></tr>
+       <tr><td><a href="UserRepository.php.html#8">App\Repositories\UserRepository</a></td><td class="text-right">20</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Methods</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="methodCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="methodComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="FileRepository.php.html#18"><abbr title="App\Repositories\FileRepository::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="FileRepository.php.html#29"><abbr title="App\Repositories\FileRepository::getByAddress">getByAddress</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="FileRepository.php.html#42"><abbr title="App\Repositories\FileRepository::getSentFilesPaginate">getSentFilesPaginate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="FileRepository.php.html#62"><abbr title="App\Repositories\FileRepository::getReceivedFilesPaginate">getReceivedFilesPaginate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="FileRepository.php.html#82"><abbr title="App\Repositories\FileRepository::getFileForCheck">getFileForCheck</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="FileRepository.php.html#98"><abbr title="App\Repositories\FileRepository::getFileForFetch">getFileForFetch</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="FileRepository.php.html#115"><abbr title="App\Repositories\FileRepository::getUnencrypted">getUnencrypted</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="FileRepository.php.html#130"><abbr title="App\Repositories\FileRepository::getPaymentState">getPaymentState</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="FileRepository.php.html#153"><abbr title="App\Repositories\FileRepository::save">save</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserRepository.php.html#17"><abbr title="App\Repositories\UserRepository::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserRepository.php.html#29"><abbr title="App\Repositories\UserRepository::save">save</abbr></a></td><td class="text-right">0%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="FileRepository.php.html#153"><abbr title="App\Repositories\FileRepository::save">save</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="UserRepository.php.html#29"><abbr title="App\Repositories\UserRepository::save">save</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="FileRepository.php.html#42"><abbr title="App\Repositories\FileRepository::getSentFilesPaginate">getSentFilesPaginate</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="FileRepository.php.html#62"><abbr title="App\Repositories\FileRepository::getReceivedFilesPaginate">getReceivedFilesPaginate</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="FileRepository.php.html#130"><abbr title="App\Repositories\FileRepository::getPaymentState">getPaymentState</abbr></a></td><td class="text-right">6</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <footer>
+    <hr/>
+    <p>
+     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 6.1.4</a> using <a href="https://secure.php.net/" target="_top">PHP 7.2.19-0ubuntu0.18.04.1</a> with <a href="https://xdebug.org/">Xdebug 2.6.0</a> and <a href="https://phpunit.de/">PHPUnit 7.5.9</a> at Wed Jun 26 10:19:49 UTC 2019.</small>
+    </p>
+   </footer>
+  </div>
+  <script src="../.js/jquery.min.js" type="text/javascript"></script>
+  <script src="../.js/d3.min.js" type="text/javascript"></script>
+  <script src="../.js/nv.d3.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
+$(document).ready(function() {
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#classCoverageDistribution svg')
+      .datum(getCoverageDistributionData([2,0,0,0,0,0,0,0,0,0,0,1], "Class Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#methodCoverageDistribution svg')
+      .datum(getCoverageDistributionData([11,0,0,0,0,0,0,0,0,0,0,25], "Method Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getCoverageDistributionData(data, label) {
+    var labels = [
+      '0%',
+      '0-10%',
+      '10-20%',
+      '20-30%',
+      '30-40%',
+      '40-50%',
+      '50-60%',
+      '60-70%',
+      '70-80%',
+      '80-90%',
+      '90-100%',
+      '100%'
+    ];
+    var values = [];
+    $.each(labels, function(key) {
+      values.push({x: labels[key], y: data[key]});
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Cyclomatic Complexity');
+
+    d3.select('#classComplexity svg')
+      .datum(getComplexityData([[0,14,"<a href=\"FileRepository.php.html#9\">App\\Repositories\\FileRepository<\/a>"],[100,38,"<a href=\"ResourceRepository.php.html#18\">App\\Repositories\\ResourceRepository<\/a>"],[0,4,"<a href=\"UserRepository.php.html#8\">App\\Repositories\\UserRepository<\/a>"]], 'Class Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Method Complexity');
+
+    d3.select('#methodComplexity svg')
+      .datum(getComplexityData([[0,1,"<a href=\"FileRepository.php.html#18\">App\\Repositories\\FileRepository::__construct<\/a>"],[0,1,"<a href=\"FileRepository.php.html#29\">App\\Repositories\\FileRepository::getByAddress<\/a>"],[0,2,"<a href=\"FileRepository.php.html#42\">App\\Repositories\\FileRepository::getSentFilesPaginate<\/a>"],[0,2,"<a href=\"FileRepository.php.html#62\">App\\Repositories\\FileRepository::getReceivedFilesPaginate<\/a>"],[0,1,"<a href=\"FileRepository.php.html#82\">App\\Repositories\\FileRepository::getFileForCheck<\/a>"],[0,1,"<a href=\"FileRepository.php.html#98\">App\\Repositories\\FileRepository::getFileForFetch<\/a>"],[0,1,"<a href=\"FileRepository.php.html#115\">App\\Repositories\\FileRepository::getUnencrypted<\/a>"],[0,2,"<a href=\"FileRepository.php.html#130\">App\\Repositories\\FileRepository::getPaymentState<\/a>"],[0,3,"<a href=\"FileRepository.php.html#153\">App\\Repositories\\FileRepository::save<\/a>"],[100,1,"<a href=\"ResourceRepository.php.html#29\">App\\Repositories\\ResourceRepository::getModel<\/a>"],[100,1,"<a href=\"ResourceRepository.php.html#40\">App\\Repositories\\ResourceRepository::getAll<\/a>"],[100,2,"<a href=\"ResourceRepository.php.html#52\">App\\Repositories\\ResourceRepository::getAllTrashed<\/a>"],[100,1,"<a href=\"ResourceRepository.php.html#67\">App\\Repositories\\ResourceRepository::getAllOrdered<\/a>"],[100,2,"<a href=\"ResourceRepository.php.html#81\">App\\Repositories\\ResourceRepository::getAllOrderedTrashed<\/a>"],[100,2,"<a href=\"ResourceRepository.php.html#99\">App\\Repositories\\ResourceRepository::getWhere<\/a>"],[100,3,"<a href=\"ResourceRepository.php.html#116\">App\\Repositories\\ResourceRepository::getWhereTrashed<\/a>"],[100,1,"<a href=\"ResourceRepository.php.html#134\">App\\Repositories\\ResourceRepository::getById<\/a>"],[100,2,"<a href=\"ResourceRepository.php.html#147\">App\\Repositories\\ResourceRepository::getByIdTrashed<\/a>"],[100,1,"<a href=\"ResourceRepository.php.html#161\">App\\Repositories\\ResourceRepository::getPaginate<\/a>"],[100,2,"<a href=\"ResourceRepository.php.html#176\">App\\Repositories\\ResourceRepository::getPaginateWhere<\/a>"],[100,2,"<a href=\"ResourceRepository.php.html#190\">App\\Repositories\\ResourceRepository::getPaginateTrashed<\/a>"],[100,3,"<a href=\"ResourceRepository.php.html#210\">App\\Repositories\\ResourceRepository::getPaginateWhereTrashed<\/a>"],[100,1,"<a href=\"ResourceRepository.php.html#230\">App\\Repositories\\ResourceRepository::getPaginateOrdered<\/a>"],[100,2,"<a href=\"ResourceRepository.php.html#245\">App\\Repositories\\ResourceRepository::getPaginateOrderedTrashed<\/a>"],[100,1,"<a href=\"ResourceRepository.php.html#260\">App\\Repositories\\ResourceRepository::exists<\/a>"],[100,2,"<a href=\"ResourceRepository.php.html#272\">App\\Repositories\\ResourceRepository::existsTrashed<\/a>"],[100,1,"<a href=\"ResourceRepository.php.html#289\">App\\Repositories\\ResourceRepository::save<\/a>"],[100,1,"<a href=\"ResourceRepository.php.html#297\">App\\Repositories\\ResourceRepository::store<\/a>"],[100,1,"<a href=\"ResourceRepository.php.html#313\">App\\Repositories\\ResourceRepository::updateById<\/a>"],[100,1,"<a href=\"ResourceRepository.php.html#325\">App\\Repositories\\ResourceRepository::update<\/a>"],[100,1,"<a href=\"ResourceRepository.php.html#336\">App\\Repositories\\ResourceRepository::destroyById<\/a>"],[100,2,"<a href=\"ResourceRepository.php.html#347\">App\\Repositories\\ResourceRepository::destroy<\/a>"],[100,1,"<a href=\"ResourceRepository.php.html#358\">App\\Repositories\\ResourceRepository::restore<\/a>"],[100,1,"<a href=\"ResourceRepository.php.html#371\">App\\Repositories\\ResourceRepository::escapeLike<\/a>"],[0,1,"<a href=\"UserRepository.php.html#17\">App\\Repositories\\UserRepository::__construct<\/a>"],[0,3,"<a href=\"UserRepository.php.html#29\">App\\Repositories\\UserRepository::save<\/a>"]], 'Method Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getComplexityData(data, label) {
+    var values = [];
+    $.each(data, function(key) {
+      var value = Math.round(data[key][0]*100) / 100;
+      values.push({
+        x: value,
+        y: data[key][1],
+        class: data[key][2],
+        size: 0.05,
+        shape: 'diamond'
+      });
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+});
+  </script>
+ </body>
+</html>

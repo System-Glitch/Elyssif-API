@@ -1,0 +1,89 @@
+@charset "utf-8";
+
+$blue-grey: #eceff1;
+$family-sans-serif: "Roboto", sans-serif;
+
+@import "./node_modules/bulma/bulma.sass";
+@import "./layout.scss";
+@import "./animations.scss";
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap');
+
+.title {
+	font-weight: 300;
+}
+
+.gradient {
+	background: linear-gradient(-45deg, #59B1F7 0%, #6666E2 100%);
+}
+
+.gradient * {
+	color: $blue-grey;
+}
+
+#welcome {
+	$duration: 1.5s;
+	$delay: 0.5s;
+
+	.title, .subtitle, .logo, .scroll-indicator {
+		opacity: 0;
+	}
+
+	.title {
+		font-size: 4rem;
+		animation: fade-in $duration $delay ease-out forwards, slide-up $duration $delay ease-out forwards;
+	}
+
+	.subtitle {
+		font-size: 1.5rem;
+		animation: fade-in $duration ($delay * 2) ease-out forwards, slide-up $duration ($delay * 2) ease-out forwards;
+	}
+
+	.logo {
+		width: 160px;
+		height: 160px;
+		animation: fade-in $duration ease-out forwards, slide-up $duration ease-out forwards;
+	}
+
+	.scroll-indicator {
+		animation: fade-in $duration ($duration + $delay * 2) ease-in-out forwards, hover (($duration + $delay) * 2) ease-in-out infinite;
+	}
+}
+
+.scroll-indicator {
+
+	transform: rotate(.0001deg);
+
+	&:before, &:after {
+		content: '';
+		width: 30px;
+		height: 4px;
+		display: inline-block;
+		background: $blue-grey;
+	}
+
+	&:before {
+		transform: rotate(45deg) translate(0px, -8px);
+		border-top-left-radius: 2px;
+		border-bottom-left-radius: 2px;
+	}
+
+	&:after {
+		transform: rotate(-45deg) translate(0px, -8px);
+		border-top-right-radius: 2px;
+		border-bottom-right-radius: 2px;
+	}
+
+}
+
+.img {
+	min-width: 64px;
+	min-height: 64px;
+}
+
+.font-large {
+	font-size: 1.5rem;
+}
+
+.font-large.title {
+	font-size: 4rem;
+}

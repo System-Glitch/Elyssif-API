@@ -1,0 +1,15 @@
+@keyframes fade-in {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes slide-up {
+  from {transform: translateY(100px);}
+  to {transform: translateY(0%);}
+}
+
+@keyframes hover {
+  0% {transform: translateY(0%) rotate(.0001deg);}
+  50% {transform: translateY(50%) rotate(.0001deg);}
+  100% {transform: translateY(0%) rotate(.0001deg);}
+}
