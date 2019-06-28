@@ -33,8 +33,8 @@
 	</section>
 	<section class="section">
 		<div class="container">
-			<div class="columns is-centered is-vcentered is-variable is-flex-mobile is-4-fullhd is-8-widescreen is-2-mobile">
-				<div class="column is-narrow">
+			<div class="columns is-centered is-vcentered is-variable is-4-fullhd is-8-widescreen is-2-mobile">
+				<div class="column is-narrow has-text-centered-mobile">
 					<h2 class="title animate-slide-in-right">File sharing with peace of mind</h2>
 					<p class="animate-slide-in-right animate-delay">
 						Securely send files to anyone without worrying about hackers nor data resale.
@@ -44,11 +44,11 @@
 					<img src="{{ asset('img/yoga.png') }}" class="img animate-slide-in-left">
 				</div>
 			</div>
-			<div class="columns is-centered is-vcentered is-variable is-flex-mobile is-4-fullhd is-8-widescreen is-2-mobile">
+			<div class="columns is-centered is-vcentered is-variable is-4-fullhd is-8-widescreen is-2-mobile">
 				<div class="column is-narrow has-text-centered">
 					<img src="{{ asset('img/idea.png') }}" class="img animate-slide-in-right animate-delay">
 				</div>
-				<div class="column is-narrow">
+				<div class="column is-narrow has-text-centered-mobile">
 					<h2 class="title animate-slide-in-left animate-delay">Simple and intuitive</h2>
 					<p class="animate-slide-in-left animate-delay_long">
 						No headaches, experience a user-friendly application.
@@ -75,9 +75,9 @@
 	</section>
 	<section class="section">
 		<div class="container">
-			<div class="columns is-centered is-vcentered is-variable is-flex-mobile is-4-fullhd is-8-widescreen is-2-mobile">
+			<div class="columns is-centered is-vcentered is-variable is-4-fullhd is-8-widescreen is-2-mobile has-text-centered-mobile">
 				<div class="column is-narrow has-text-centered">
-					<img src="{{ asset('img/messaging-apps.png') }}" class="img is-flex animate-slide-in-right">
+					<img src="{{ asset('img/messaging-apps.png') }}" class="img animate-slide-in-right">
 				</div>
 				<div class="column is-narrow">
 					<h2 class="title animate-slide-in-left">Interoperability</h2>
@@ -89,7 +89,7 @@
 					</p>
 				</div>
 			</div>
-			<div class="columns is-centered is-vcentered is-variable is-flex-mobile is-4-fullhd is-8-widescreen is-2-mobile">
+			<div class="columns is-centered is-vcentered is-variable is-4-fullhd is-8-widescreen is-2-mobile has-text-centered-mobile">
 				<div class="column is-narrow">
 					<h2 class="title animate-slide-in-right animate-delay">Sell your files</h2>
 					<p class="animate-slide-in-right animate-delay_long">
