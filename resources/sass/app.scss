@@ -8,6 +8,10 @@ $family-sans-serif: "Roboto", sans-serif;
 @import "./animations.scss";
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap');
 
+body {
+	font-size: 1.025em;
+}
+
 .title {
 	font-weight: 300;
 }
