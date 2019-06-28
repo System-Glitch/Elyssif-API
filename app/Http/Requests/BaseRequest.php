@@ -2,17 +2,18 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Request;
 
 class BaseRequest extends FormRequest
 {
 
     public function expectsJson()
     {
-        return true;
+        return Request::is('api/*');
     }
 
     public function wantsJson()
     {
-        return true;
+        return Request::is('api/*');
     }
 }
