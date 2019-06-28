@@ -14,6 +14,8 @@ Elyssif is a user-friendly app that allows you to send sensitive or important fi
 * Apache 2 (or Nginx)
 * Composer
 * Supervisor
+* npm >= 6.9.0
+* node >= v10.15.0
 * xdebug
 * Redis
 * Bitcoin Core (bitcoind) >= 0.18.0
@@ -27,8 +29,11 @@ Elyssif is a user-friendly app that allows you to send sensitive or important fi
 
 1. Clone the repository using `git clone`.
 2. Open a terminal and `cd` to the project's root directory.
-3. Run `vagrant up`. Vagrant will download a box, install it and provision it. This will take a few minutes. Wait for the operation to finish.
-4. Your work environment is ready.
+3. **If your host is running Windows:** open `boostrap.sh` and **comment** `npm install` and `npm run dev`. (Near the end of the file)
+4. Run `vagrant up`. Vagrant will download a box, install it and provision it. This will take a few minutes. Wait for the operation to finish.
+5. Your work environment is ready.
+6. **If your host is running Windows:** open `boostrap.sh` and **uncomment** `npm install` and `npm run dev`. (Near the end of the file)
+7. **If your host is running Windows:** run `npm install && npm run dev` from the host. (Use npm from the host from now on)
 
 The provision should have installed and configured everything you need to start working. You can access your web server from your host machine via `http://127.0.0.1:4567`.
 
@@ -121,6 +126,9 @@ service bitcoind start
 
 line="* * * * * php /path/to/project/artisan schedule:run >> /dev/null 2>&1"
 (crontab -u www-data -l; echo "$line" ) | crontab -u www-data -
+
+npm install
+npm run dev
 ```
 
 ## Running the tests

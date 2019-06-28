@@ -239,6 +239,12 @@ provision()
 	a2enmod rewrite
 	service apache2 restart
 	start_worker
+
+	separator
+
+	npm install
+	npm run dev
+
 	echo "Provision completed"
 }
 

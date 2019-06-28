@@ -1,0 +1,66 @@
+@keyframes fade-in {
+	from {opacity: 0;}
+	to {opacity: 1;}
+}
+
+@keyframes slide-up {
+	from {transform: translateY(100px) rotate(.0001deg);}
+	to {transform: translateY(0px) rotate(.0001deg);}
+}
+
+@keyframes slide-down {
+	from {transform: translateY(-100px) rotate(.0001deg);}
+	to {transform: translateY(0px) rotate(.0001deg);}
+}
+
+@keyframes slide-left {
+	from {transform: translateX(100px) rotate(.0001deg);}
+	to {transform: translateX(0px) rotate(.0001deg);}
+}
+
+@keyframes slide-right {
+	from {transform: translateX(-100px) rotate(.0001deg);}
+	to {transform: translateX(0px) rotate(.0001deg);}
+}
+
+@keyframes hover {
+	0% {transform: translateY(0%) rotate(.0001deg);}
+	50% {transform: translateY(50%) rotate(.0001deg);}
+	100% {transform: translateY(0%) rotate(.0001deg);}
+}
+
+.animate-slide-in, .animate-slide-in-left, .animate-slide-in-right, .animate-slide-in-down {
+	opacity: 0;
+}
+
+.slide-in {
+	animation: fade-in 1.5s ease-out forwards, slide-up 1.5s ease-out forwards;
+}
+
+.slide-in-left {
+	animation: fade-in 1.5s ease-out forwards, slide-left 1.5s ease-out forwards;
+}
+
+.slide-in-right {
+	animation: fade-in 1.5s ease-out forwards, slide-right 1.5s ease-out forwards;
+}
+
+.slide-in-down {
+	animation: fade-in 1.5s ease-out forwards, slide-down 1.5s ease-out forwards;
+}
+
+.animate-delay {
+	animation-delay: 0.5s;
+}
+
+.animate-delay_long {
+	animation-delay: 1s;
+}
+
+.animate-delay_longest {
+	animation-delay: 1.5s;
+}
+
+.scroll-indicator-animation {
+	animation: fade-in 1.5s 2.5s ease-in-out forwards, hover 4s ease-in-out infinite;
+}
