@@ -30,22 +30,15 @@ $family-sans-serif: "Roboto", sans-serif;
 
 	.title {
 		font-size: 4rem;
-		animation: fade-in $duration $delay ease-out forwards, slide-up $duration $delay ease-out forwards;
 	}
 
 	.subtitle {
 		font-size: 1.5rem;
-		animation: fade-in $duration ($delay * 2) ease-out forwards, slide-up $duration ($delay * 2) ease-out forwards;
 	}
 
 	.logo {
 		width: 160px;
 		height: 160px;
-		animation: fade-in $duration ease-out forwards, slide-up $duration ease-out forwards;
-	}
-
-	.scroll-indicator {
-		animation: fade-in $duration ($duration + $delay * 2) ease-in-out forwards, hover (($duration + $delay) * 2) ease-in-out infinite;
 	}
 }
 
