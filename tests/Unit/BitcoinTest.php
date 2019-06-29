@@ -32,4 +32,14 @@ class BitcoinTest extends TestCase
         $info = $bitcoind->getAddressInfo($address)->result();
         $this->assertNotNull($info);
     }
+
+
+    public function testAddressValidity()
+    {
+        $address = "2MvGjZfmhtuAR7QppDp7BHCFQUe3Wk5PmRj";
+        $this->assertTrue(checkBitcoinAddress($address));
+
+        $address = "64jZfmhtuARQppDp7BHCFQUe3Wk5PmRj";
+        $this->assertFalse(checkBitcoinAddress($address));
+    }
 }
