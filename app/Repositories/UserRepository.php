@@ -37,6 +37,4 @@ class UserRepository extends ResourceRepository
         return $model->id;
     }
 
-    // TODO update if address set to null then set price of all sent files to zero
-
 }

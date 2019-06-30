@@ -17,6 +17,10 @@ use App\Events\UserNotification;
 class FileController extends Controller
 {
 
+    /**
+     *
+     * @var \App\Repositories\FileRepository
+     */
     private $fileRepository;
 
     /**

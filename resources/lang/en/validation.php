@@ -119,6 +119,7 @@ return [
     'min_decimal' => 'The :attribute must be at least :min.',
     'bitcoin_address' => 'Invalid Bitcoin address.',
     'has_bitcoin_address' => 'You must have set your Bitcoin address.',
+    'has_pending_files' => 'You can\'t remove your Bitcoin address unless you don\'t have any paid pending files.',
 
     /*
     |--------------------------------------------------------------------------

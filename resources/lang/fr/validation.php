@@ -93,6 +93,7 @@ return [
     'min_decimal' => 'La valeur de :attribute doit être supérieure ou égale à :min.',
     'bitcoin_address' => 'Adresse Bitcoin invalide.',
     'has_bitcoin_address' => 'Vous devez avoir défini votre adresse Bitcoin.',
+    'has_pending_files' => 'Vous ne pouvez pas retirer votre adresse Bitcoin à moins de n\'avoir aucun fichier payant en attente.',
 
     /*
     |--------------------------------------------------------------------------

@@ -13,6 +13,12 @@ class UserController extends Controller
 {
 
     /**
+     *
+     * @var \App\Repositories\UserRepository
+     */
+    private $userRepository;
+
+    /**
      * Create a new controller instance.
      *
      * @param  \App\Repositories\UserRepository  userRepository
@@ -64,8 +70,23 @@ class UserController extends Controller
             unset($data['email']);
         }
 
+        if(empty($data['address']) && ! $this->validatePendingFiles($user)) {
+            return response()->json([
+                'error' => __('validation.has_pending_files')
+            ], Response::HTTP_FORBIDDEN);
+        }
+
         $this->userRepository->update($user, $data);
         return new Response('', Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     * Validate paid pending files. Returns true if there is no paid files pending.
+     * @param User $user
+     * @return boolean
+     */
+    private function validatePendingFiles(User $user) {
+        return ! $user->sentFiles()->where('price', '>', 0)->whereNull('deciphered_at')->select('id', 'address')->exists();
     }
 
     /**
