@@ -11,6 +11,9 @@ prepare()
 	apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
 	add-apt-repository 'deb [arch=amd64,arm64,ppc64el] http://mariadb.mirrors.ovh.net/MariaDB/repo/10.3/ubuntu bionic main'
 	add-apt-repository ppa:bitcoin/bitcoin
+
+	curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+
 	apt-get update
 
 	debconf-set-selections <<< 'maria-db-10.3 mysql-server/root_password password root'
@@ -26,12 +29,16 @@ install_dependencies()
 	apt-get install -y php7.2 libapache2-mod-php7.2 php7.2-curl php7.2-mysql php7.2-json php7.2-gd php7.2-intl php7.2-gmp php7.2-mbstring php7.2-xml php7.2-zip php7.2-bcmath php-xdebug
 	apt-get install -y mariadb-server mariadb-client
 	apt-get install -y redis-server redis-tools
-	apt-get install -y composer npm
+	apt-get install -y composer nodejs
 	apt-get install -y git
 	apt-get install -y supervisor
+
+	export DEBIAN_FRONTEND=noninteractive
 	apt-get install -y python3 bitcoind
 
 	apt-get -y autoremove
+
+	alias btc-cli="bitcoin-cli -conf=/etc/bitcoin/bitcoin.conf"
 
 	npm install --global cross-env
 	npm install --global laravel-echo-server
