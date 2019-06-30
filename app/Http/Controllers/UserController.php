@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\SearchRequest;
+use App\Http\Requests\SearchRequestMandatory;
 use App\Http\Requests\UserPasswordRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
@@ -26,14 +26,12 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param \App\Http\Requests\SearchRequest
+     * @param \App\Http\Requests\SearchRequestMandatory
      * @return array
      */
-    public function index(SearchRequest $request)
+    public function index(SearchRequestMandatory $request)
     {
-        return $request->input('search') ?
-            $this->userRepository->getPaginateWhere('name', 'LIKE', $request->input('search')):
-            $this->userRepository->getPaginate();
+        return $this->userRepository->getPaginateWhere('name', 'LIKE', $request->input('search'));
     }
 
     /**
