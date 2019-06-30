@@ -8,9 +8,11 @@ use App\Http\Requests\Files\FileCipherRequest;
 use App\Http\Requests\Files\FileCreateRequest;
 use App\Http\Requests\Files\FileFetchRequest;
 use App\Http\Requests\Files\FileUpdateRequest;
+use App\Jobs\SendToAddress;
 use App\Models\File;
 use App\Repositories\FileRepository;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 use Elliptic\EC;
 use App\Events\UserNotification;
 
@@ -217,6 +219,12 @@ class FileController extends Controller
 
         if($file != null && empty($file->deciphered_at)) {
             $this->fileRepository->update($file, ['deciphered_at' => now()]);
+
+            if(checkBitcoinAddress($file->sender->address)){
+                dispatch( new SendToAddress($file->sender->address, $file->price - floatval(env('ELYSSIF_FEES', 0.0004)), false));
+            }else{
+                Log::info('User '.$file->sender->id.' doesn\'t have a valid address (\''.$file->sender->address.'\'). Payment aborted.');
+            }
         }
                                 
         return new Response('', $file != null ? Response::HTTP_NO_CONTENT : Response::HTTP_NOT_FOUND);
