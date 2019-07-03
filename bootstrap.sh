@@ -38,7 +38,7 @@ install_dependencies()
 
 	apt-get -y autoremove
 
-	alias btc-cli="bitcoin-cli -conf=/etc/bitcoin/bitcoin.conf"
+	echo 'alias btc-cli="bitcoin-cli -conf=/etc/bitcoin/bitcoin.conf"' >> /home/vagrant/.bashrc
 
 	npm install --global cross-env
 	npm install --global laravel-echo-server
