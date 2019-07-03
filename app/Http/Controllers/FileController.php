@@ -218,15 +218,16 @@ class FileController extends Controller
         $file = $this->fileRepository->getFileForCheck($request->user(), $request->input('ciphered_hash'), $request->input('hash'));
 
         if($file != null && empty($file->deciphered_at)) {
-            $this->fileRepository->update($file, ['deciphered_at' => now()]);
 
-            if(checkBitcoinAddress($file->sender->address)){
-                dispatch( new SendToAddress($file->sender->address, $file->price - floatval(env('ELYSSIF_FEES', 0.0004)), false));
-            }else{
+            if(checkBitcoinAddress($file->sender->address)) {
+                dispatch( new SendToAddress($file->sender->address, strval($file->price - floatval(env('ELYSSIF_FEES', 0.0004))), true));
+            } else {
                 Log::info('User '.$file->sender->id.' doesn\'t have a valid address (\''.$file->sender->address.'\'). Payment aborted.');
             }
         }
-                                
+
+        $this->fileRepository->update($file, ['deciphered_at' => now()]);
+
         return new Response('', $file != null ? Response::HTTP_NO_CONTENT : Response::HTTP_NOT_FOUND);
     }
 
