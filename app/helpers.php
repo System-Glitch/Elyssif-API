@@ -8,3 +8,12 @@ function minPrice()
 {
     return floatval(env('ELYSSIF_FEES', 0.0004)) + floatval(env('MIN_SELLER_PROFIT', 0.0004)) + floatval(env('BITCOIN_FEES', 0.0000332));
 }
+
+function checkBitcoinAddress($address)
+{
+	try {
+        return bitcoind()->getAddressInfo($address)->result() != null;
+    } catch(Denpa\Bitcoin\Exceptions\BadRemoteCallException $e) {
+        return false;
+    }
+}

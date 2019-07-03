@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use Denpa\Bitcoin\Exceptions\BadRemoteCallException;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -41,11 +40,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Validator::extend('bitcoin_address', function ($attribute, $value, $parameters, $validator) {
-            try {
-                return bitcoind()->getAddressInfo($value)->result() != null;
-            } catch(BadRemoteCallException $e) {
-                return false;
-            }
+            return checkBitcoinAddress($value);
         });
 
         Validator::extend('has_bitcoin_address', function ($attribute, $value, $parameters, $validator) {
