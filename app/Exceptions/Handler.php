@@ -27,6 +27,23 @@ class Handler extends ExceptionHandler
     ];
 
     /**
+     * Determine if the exception is in the "do not report" list.
+     *
+     * @param Exception $e  Exception to check
+     *
+     * @return bool
+     */
+    protected function shouldntReport(Exception $e)
+    {
+        if ($e instanceof \League\OAuth2\Server\Exception\OAuthServerException) {
+            //9: The resource owner or authorization server denied the request.
+            return $e->getCode() == 9;
+        }
+
+        return parent::shouldntReport($e);
+    }
+
+    /**
      * Report or log an exception.
      *
      * @param  \Exception  $exception

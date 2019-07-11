@@ -7,9 +7,13 @@ prepare()
 {
 	cd /vagrant
 
-	sudo apt-get install software-properties-common
-	sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
-	sudo add-apt-repository 'deb [arch=amd64,arm64,ppc64el] http://mariadb.mirrors.ovh.net/MariaDB/repo/10.3/ubuntu bionic main'
+	apt-get install software-properties-common
+	apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8
+	add-apt-repository 'deb [arch=amd64,arm64,ppc64el] http://mariadb.mirrors.ovh.net/MariaDB/repo/10.3/ubuntu bionic main'
+	add-apt-repository ppa:bitcoin/bitcoin
+
+	curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+
 	apt-get update
 
 	debconf-set-selections <<< 'maria-db-10.3 mysql-server/root_password password root'
@@ -22,13 +26,22 @@ install_dependencies()
 	echo "Installing dependencies..."
 
 	apt-get install -y apache2 apache2-utils libexpat1 ssl-cert
-	apt-get install -y php7.2 libapache2-mod-php7.2 php7.2-curl php7.2-mysql php7.2-json php7.2-gd php7.2-intl php7.2-gmp php7.2-mbstring php7.2-xml php7.2-zip php7.2-bcmath
+	apt-get install -y php7.2 libapache2-mod-php7.2 php7.2-curl php7.2-mysql php7.2-json php7.2-gd php7.2-intl php7.2-gmp php7.2-mbstring php7.2-xml php7.2-zip php7.2-bcmath php-xdebug
 	apt-get install -y mariadb-server mariadb-client
-	apt-get install -y composer
+	apt-get install -y redis-server redis-tools
+	apt-get install -y composer nodejs
 	apt-get install -y git
 	apt-get install -y supervisor
 
+	export DEBIAN_FRONTEND=noninteractive
+	apt-get install -y python3 bitcoind
+
 	apt-get -y autoremove
+
+	echo 'alias btc-cli="bitcoin-cli -conf=/etc/bitcoin/bitcoin.conf"' >> /home/vagrant/.bashrc
+
+	npm install --global cross-env
+	npm install --global laravel-echo-server
 
 	composer install
 }
@@ -57,6 +70,22 @@ setup_database()
 	php artisan db:seed
 }
 
+setup_bitcoin()
+{
+	echo "Setting up bitcoind..."
+	cat <<EOF > /etc/bitcoin/bitcoin.conf
+regtest=1
+bind=127.0.0.1:18445
+walletnotify=php /vagrant/artisan bitcoin:transaction %s
+blocknotify=php /vagrant/artisan bitcoin:confirmations
+EOF
+
+	echo "Generate RPC auth"
+	python3 /vagrant/rpcauth.py laravel /etc/bitcoin/bitcoin.conf /vagrant/.env
+	service bitcoind start
+	systemctl enable bitcoind
+}
+
 setup_worker()
 {
 	echo "Setting up worker"
@@ -66,10 +95,29 @@ process_name=%(program_name)s_%(process_num)02d
 command=php /vagrant/artisan queue:work --sleep=3 --tries=3
 autostart=true
 autorestart=true
-user=vagrant
+user=www-data
 numprocs=1
 redirect_stderr=true
 stdout_logfile=/vagrant/storage/logs/worker.log
+EOF
+
+}
+
+setup_socket_io_server()
+{
+	echo "Setting up socket.io worker"
+	cp /vagrant/laravel-echo-server.json.example /vagrant/laravel-echo-server.json
+	cat <<EOF > /etc/supervisor/conf.d/laravel-echo.conf
+[program:laravel-echo]
+directory=/var/www
+process_name=%(program_name)s_%(process_num)02d
+command=laravel-echo-server start
+autostart=true
+autorestart=true
+user=vagrant
+numprocs=1
+redirect_stderr=true
+stdout_logfile=/var/www/storage/logs/echo.log
 EOF
 }
 
@@ -101,6 +149,7 @@ configure()
 
 	configure_apache
 	setup_worker
+	setup_socket_io_server
 	chmod -R 777 /vagrant/storage/
 	chmod -R 777 /vagrant/bootstrap/
 
@@ -118,10 +167,10 @@ DB_DATABASE=elyssif
 DB_USERNAME=laravel
 DB_PASSWORD=secret
 
-BROADCAST_DRIVER=log
+BROADCAST_DRIVER=redis
 CACHE_DRIVER=file
 SESSION_DRIVER=file
-QUEUE_DRIVER=database
+QUEUE_CONNECTION=redis
 
 REDIS_HOST=127.0.0.1
 REDIS_PASSWORD=null
@@ -138,12 +187,26 @@ PUSHER_APP_ID=
 PUSHER_APP_KEY=
 PUSHER_APP_SECRET=
 
+ECHO_HOST=http://127.0.0.1:6001
+ECHO_APP=elyssif
+ECHO_KEY=818c8c8c73e1c81e1fe20b4eba4f01c7
+
+MIN_CONFIRMATIONS=3
+BITCOIN_FEES=0.0000332
+ELYSSIF_FEES=0.0004
+MIN_SELLER_PROFIT=0.0004
+BITCOIND_HOST=localhost:18443
 EOF
+
+	setup_bitcoin
 
 	chmod 777 .env
 	php artisan key:generate
 
 	setup_database
+	php artisan passport:install
+
+	register_cron_task
 }
 
 install()
@@ -159,9 +222,9 @@ start_worker()
 
 	supervisorctl reread
 	supervisorctl update
-	supervisorctl start laravel-worker:*	
+	supervisorctl start laravel-worker:*
+	supervisorctl start laravel-echo:*
 }
-
 
 register_cron_task()
 {
@@ -183,6 +246,12 @@ provision()
 	a2enmod rewrite
 	service apache2 restart
 	start_worker
+
+	separator
+
+	npm install
+	npm run dev
+
 	echo "Provision completed"
 }
 

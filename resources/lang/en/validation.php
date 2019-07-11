@@ -115,6 +115,11 @@ return [
     'uploaded' => 'The :attribute failed to upload.',
     'url' => 'The :attribute format is invalid.',
     'uuid' => 'The :attribute must be a valid UUID.',
+    'password' => 'Incorrect password.',
+    'min_decimal' => 'The :attribute must be at least :min.',
+    'bitcoin_address' => 'Invalid Bitcoin address.',
+    'has_bitcoin_address' => 'You must have set your Bitcoin address.',
+    'has_pending_files' => 'You can\'t remove your Bitcoin address unless you don\'t have any paid pending files.',
 
     /*
     |--------------------------------------------------------------------------
@@ -128,8 +133,12 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'email' => [
+            'email' => 'Invalid email address.',
+        ],
+        'password' => [
+            'min' => 'The password must be at least :min characters long.',
+            'confirmed' => 'The password confirmation does not match.',
         ],
     ],
 

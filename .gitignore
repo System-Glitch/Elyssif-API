@@ -3,6 +3,8 @@
 /public/storage
 /public/js
 /public/css
+/public/img
+report/
 /storage/*.key
 /vendor
 /.idea
@@ -15,3 +17,8 @@ yarn-error.log
 .env
 /*.log*
 composer.phar
+.buildpath
+.project
+.settings/
+laravel-echo-server.json
+laravel-echo-server.lock

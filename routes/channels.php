@@ -11,6 +11,10 @@
 |
 */
 
-Broadcast::channel('App.User.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id;
+Broadcast::channel('file.{file}', function ($user, \App\Models\File $file) {
+    return $user->id == $file->recipient_id;
+});
+
+Broadcast::channel('user.{userId}', function ($user, $userId) {
+    return $user->id == $userId;
 });
