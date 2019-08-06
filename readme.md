@@ -2,7 +2,7 @@
 
 **E**lyssif **L**et's **Y**ou **S**ecurely **S**end **I**mportant **F**iles
 
-Elyssif is a user-friendly app that allows you to send sensitive or important files via the platform of your choice without worrying about your data being stolen or sold, thanks to strong asymmetric encryption. This repository holds the webservice (REST APIà to make this application work.
+Elyssif is a user-friendly app that allows you to send sensitive or important files via the platform of your choice without worrying about your data being stolen or sold, thanks to strong asymmetric encryption. Elyssif allows to ask for a Bitcoin payment for the recipient to decrypt the file. This repository holds the webservice (REST API) to make this application work.
 
 ## Installing
 
@@ -134,3 +134,5 @@ npm run dev
 ## Running the tests
 
 To run the automated tests, simply run : `php ./vendor/phpunit/phpunit/phpunit` when your current directory is the root of the project. A code coverage report will be generated in the `report` folder.
+
+### See the [Client](https://github.com/System-Glitch/Elyssif-Client)
