@@ -241,9 +241,9 @@ class FileController extends Controller
             } else {
                 Log::info('User '.$file->sender->id.' doesn\'t have a valid address (\''.$file->sender->address.'\'). Payment aborted.');
             }
-        }
 
-        $this->fileRepository->update($file, ['deciphered_at' => now()]);
+            $this->fileRepository->update($file, ['deciphered_at' => now()]);
+        }
 
         return new Response('', $file != null ? Response::HTTP_NO_CONTENT : Response::HTTP_NOT_FOUND);
     }
